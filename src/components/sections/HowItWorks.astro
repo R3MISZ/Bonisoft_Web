@@ -60,10 +60,16 @@ const allSteps = [...steps, rewardStep];
                     style={`grid-row: ${laneRow(lane)}; grid-column: ${step.column + 1};`}
                   >
                     <article
-                      class={`h-full rounded-xl p-5 ${
+                      class={`relative h-full rounded-xl p-5 ${
                         isReward ? "border border-dashed border-brand-500/60" : "bg-white/5"
                       }`}
                     >
+                      <span
+                        aria-hidden="true"
+                        class="flow-edge"
+                        style={`--beat: ${(step.column - 1) * 2};`}
+                      ></span>
+
                       {isReward ? (
                         <p class="text-xs font-semibold uppercase tracking-[0.18em] text-brand-500">
                           Parallel
@@ -80,7 +86,7 @@ const allSteps = [...steps, rewardStep];
                     {Connector && (
                       <span
                         class="flow-arrow absolute top-1/2 -right-[2.25rem] -translate-y-1/2"
-                        style={`--step: ${step.column - 1};`}
+                        style={`--beat: ${(step.column - 1) * 2 + 1};`}
                       >
                         <Connector size={24} strokeWidth={2} aria-hidden="true" />
                       </span>
@@ -118,29 +124,79 @@ const allSteps = [...steps, rewardStep];
   </div>
 </section>
 
+
+
 <style>
-  /* Arrows light up one after another, following the flow. */
+  /*
+   * One shared timeline with nine beats: card 01, its arrow, card 02, and so on.
+   * Cards sweep their border from left to right, arrows flash in between.
+   */
+  .flow-edge,
   .flow-arrow {
-    --cycle: 4.8s;
+    --cycle: 6.3s;
+    --beats: 9;
+    animation-duration: var(--cycle);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-delay: calc(var(--beat) * var(--cycle) / var(--beats));
+  }
+
+  /* Border overlay, revealed left to right by moving the clip edge. */
+  .flow-edge {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--color-brand-500);
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    animation-name: flow-edge-sweep;
+  }
+
+  @keyframes flow-edge-sweep {
+    0% {
+      opacity: 1;
+      clip-path: inset(0 100% 0 0);
+    }
+    7% {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+    }
+    11% {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+    }
+    16%,
+    100% {
+      opacity: 0;
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  .flow-arrow {
     color: var(--color-ink-600);
-    animation: flow-pulse var(--cycle) linear infinite;
-    animation-delay: calc(var(--step) * var(--cycle) / 4);
+    opacity: 0.55;
+    animation-name: flow-pulse;
   }
 
   @keyframes flow-pulse {
-    0%,
-    18%,
+    0% {
+      color: var(--color-brand-500);
+      opacity: 1;
+    }
+    9%,
     100% {
       color: var(--color-ink-600);
       opacity: 0.55;
     }
-    6% {
-      color: var(--color-brand-500);
-      opacity: 1;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .flow-edge {
+      animation: none;
+      opacity: 0;
+    }
+
     .flow-arrow {
       animation: none;
       color: var(--color-ink-600);

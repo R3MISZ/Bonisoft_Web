@@ -20,10 +20,14 @@
   @apply text-xs font-semibold uppercase tracking-[0.18em] text-brand-600;
 }
 
-:root {
-  /* Content container of the page: max-w-6xl (72rem) with px-6 (1.5rem) gutters.
-     Kept here so effects outside the container can line up with it. */
-  --content-max: 72rem;
-  --content-gutter: 1.5rem;
-  --content-edge: max(var(--content-gutter), calc(50% - var(--content-max) / 2 + var(--content-gutter)));
+/* Custom */
+@layer utilities {
+  .scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: #8B8B8B transparent;
+
+    direction: ltr;
+    /* For reserved place */
+    scrollbar-gutter: stable;
+  }
 }

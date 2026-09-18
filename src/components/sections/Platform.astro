@@ -41,9 +41,7 @@ const COPIES = 4;
       verteilt liegt, hat in Bonisoft einen Ort. Aus diesen Bausteinen stellen Sie
       zusammen, was Ihre Leute im Alltag wirklich brauchen.
     </p>
-  </div>
-
-  <div class="marquee mt-14 space-y-4">
+    <div class="marquee mt-14 space-y-4">
     {
       moduleRows.map((row, rowIndex) => (
         <div class="marquee-row" style={`--duration: ${durations[rowIndex]}; --delay: -${rowIndex * 9}s;`}>
@@ -70,8 +68,7 @@ const COPIES = 4;
     }
   </div>
 
-  <div class="mx-auto mt-10 max-w-6xl px-6">
-    <p class="text-sm text-ink-600">
+    <p class="mt-10 text-sm text-ink-600">
       Elf Bausteine, beliebig kombinierbar – vom Urlaubsantrag über den Intranet-Link
       bis zur Bestenliste der Schicht.
     </p>
@@ -79,13 +76,13 @@ const COPIES = 4;
 </section>
 
 <style>
-  /* Rows run edge to edge but stay crisp exactly where the page content sits. */
+  /* The band lives inside the page container and fades at its edges. */
   .marquee {
     --edge-fade: linear-gradient(
       to right,
       transparent,
-      black var(--content-edge),
-      black calc(100% - var(--content-edge)),
+      black 3rem,
+      black calc(100% - 3rem),
       transparent
     );
     -webkit-mask-image: var(--edge-fade);

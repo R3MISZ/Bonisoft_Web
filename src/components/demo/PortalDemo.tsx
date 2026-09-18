@@ -1,75 +1,102 @@
 import { useState } from "react";
-import { portalViews, type PortalViewId } from "../../data/demo";
+import {
+  LayoutDashboard, Users, UsersRound, Zap, Box, Bell, Sun, Globe, CircleHelp, ChevronRight,
+} from "lucide-react";
+import {
+  portalNav, portalDashboard, portalEmployees, portalGroups,
+  portalActionModules, portalServiceModules, type PortalViewId,
+} from "../../data/portal";
+import DashboardView from "./portal/DashboardView";
+import EmployeesView from "./portal/EmployeesView";
+import GroupsView from "./portal/GroupsView";
+import ActionModulesView from "./portal/ActionModulesView";
+import ServiceModulesView from "./portal/ServiceModulesView";
 
-/** Manager view: sidebar, topbar, content. A mock, not the real portal. */
+const navIcons = {
+  dashboard: LayoutDashboard,
+  users: Users,
+  group: UsersRound,
+  zap: Zap,
+  box: Box,
+};
+
+const headings: Record<PortalViewId, { title: string; subtitle: string }> = {
+  dashboard: portalDashboard,
+  mitarbeiter: portalEmployees,
+  gruppen: portalGroups,
+  aktionsmodule: portalActionModules,
+  dienstmodule: portalServiceModules,
+};
+
+/** Manager portal: sidebar, topbar, content. A mock, not the real portal. */
 export default function PortalDemo() {
-  const [viewId, setViewId] = useState<PortalViewId>("kennzahlen");
-  const view = portalViews.find((item) => item.id === viewId) ?? portalViews[0];
+  const [viewId, setViewId] = useState<PortalViewId>("dashboard");
+  const heading = headings[viewId];
 
   return (
     <div className="overflow-hidden rounded-xl border border-ink-300/60 bg-white shadow-sm">
-      {/* window chrome */}
-      <div className="flex items-center gap-1.5 border-b border-ink-100 bg-ink-100/70 px-4 py-2.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-ink-300" />
-        <span className="h-2.5 w-2.5 rounded-full bg-ink-300" />
-        <span className="h-2.5 w-2.5 rounded-full bg-ink-300" />
-        <span className="ml-3 text-xs text-ink-600">portal.bonisoft.de</span>
-      </div>
-
       <div className="grid grid-cols-[7.5rem_1fr] sm:grid-cols-[9.5rem_1fr]">
         <nav aria-label="Portalbereiche" className="border-r border-ink-100 bg-ink-100/40 p-2">
-          {portalViews.map((item) => {
-            const isActive = item.id === view.id;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setViewId(item.id)}
-                aria-current={isActive ? "page" : undefined}
-                className={`mb-1 block w-full rounded-lg px-3 py-2 text-left text-xs transition-colors sm:text-sm ${
-                  isActive
-                    ? "bg-ink-900 font-medium text-white"
-                    : "text-ink-800 hover:bg-white"
-                }`}
-              >
-                {item.label}
-              </button>
-            );
-          })}
+          <p className="px-2 py-1.5 text-[0.75rem] font-semibold text-ink-900">Bonisoft</p>
+
+          {portalNav.map((section) => (
+            <div key={section.group ?? "start"} className="mt-2">
+              {section.group && (
+                <p className="px-2 pb-1 text-[0.55rem] font-semibold uppercase tracking-wider text-ink-600">
+                  {section.group}
+                </p>
+              )}
+
+              {section.items.map((item) => {
+                const Icon = navIcons[item.icon];
+                const isActive = item.id === viewId;
+
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => setViewId(item.id)}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`mb-0.5 flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[0.68rem] transition-colors ${
+                      isActive ? "bg-brand-500 font-medium text-white" : "text-ink-800 hover:bg-white"
+                    }`}
+                  >
+                    <Icon size={13} strokeWidth={2} className="shrink-0" aria-hidden="true" />
+                    <span className="truncate">{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
-        <div className="min-h-[19rem]">
-          <div className="flex items-center justify-between border-b border-ink-100 px-5 py-3">
-            <p className="text-sm font-medium text-ink-900">{view.title}</p>
-            <span className="hidden rounded-full bg-brand-100 px-3 py-1 text-xs text-ink-800 sm:inline">
-              Live
+        {/* fixed height: the frame must not jump when switching views */}
+        <div className="flex h-[31.25rem] flex-col">
+          {/* topbar */}
+          <div className="flex shrink-0 items-center gap-2 border-b border-ink-100 px-3 py-2">
+            <span className="flex items-center gap-1 text-[0.6rem] text-ink-600">
+              Start
+              <ChevronRight size={10} aria-hidden="true" />
+              <span className="text-ink-900">{heading.title}</span>
+            </span>
+
+            <span className="ml-auto flex items-center gap-1.5 text-ink-600">
+              <Bell size={12} aria-hidden="true" />
+              <Sun size={12} aria-hidden="true" />
+              <Globe size={12} aria-hidden="true" />
+              <CircleHelp size={12} aria-hidden="true" />
             </span>
           </div>
 
-          <div className="p-5">
-            <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-              {view.stats.map((stat) => (
-                <div key={stat.label} className="rounded-lg bg-ink-100/60 p-3">
-                  <p className="text-[0.7rem] text-ink-600">{stat.label}</p>
-                  <p className="mt-1 text-lg font-semibold tabular-nums text-ink-900">
-                    {stat.value}
-                  </p>
-                  {stat.trend && <p className="text-[0.7rem] text-brand-600">{stat.trend}</p>}
-                </div>
-              ))}
-            </div>
+          <div className="flex-1 overflow-y-auto p-4">
+            <h4 className="text-sm font-semibold text-ink-900">{heading.title}</h4>
+            <p className="mt-0.5 mb-4 text-[0.65rem] text-ink-600">{heading.subtitle}</p>
 
-            <ul className="mt-4 divide-y divide-ink-100 border-t border-ink-100">
-              {view.rows.map((row) => (
-                <li key={row.title} className="flex items-center justify-between gap-4 py-2.5">
-                  <div className="min-w-0">
-                    <p className="truncate text-sm text-ink-900">{row.title}</p>
-                    <p className="truncate text-xs text-ink-600">{row.meta}</p>
-                  </div>
-                  <span className="shrink-0 text-xs text-ink-600">{row.status}</span>
-                </li>
-              ))}
-            </ul>
+            {viewId === "dashboard" && <DashboardView />}
+            {viewId === "mitarbeiter" && <EmployeesView />}
+            {viewId === "gruppen" && <GroupsView />}
+            {viewId === "aktionsmodule" && <ActionModulesView />}
+            {viewId === "dienstmodule" && <ServiceModulesView />}
           </div>
         </div>
       </div>

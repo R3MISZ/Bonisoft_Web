@@ -8,6 +8,9 @@ import {
   Star,
   Flame,
   Bell,
+  SignalHigh,
+  Wifi,
+  BatteryFull,
 } from "lucide-react";
 import { mobileNav, mobileHeader, type MobileViewId } from "../../data/demo";
 import MobileListView from "./MobileListView";
@@ -26,42 +29,53 @@ const navIcons: Record<MobileViewId, typeof Clock> = {
 /** Employee view: phone frame, app header, bottom navigation. */
 export default function MobileDemo() {
   const [viewId, setViewId] = useState<MobileViewId>("shop");
-  const [done, setDone] = useState<string[]>([]);
-
-  const toggle = (title: string) =>
-    setDone((current) =>
-      current.includes(title) ? current.filter((item) => item !== title) : [...current, title],
-    );
 
   return (
     <div className="mx-auto w-full max-w-[17rem]">
       <div className="overflow-hidden rounded-[2rem] border-[6px] border-ink-900 bg-white shadow-sm">
-        <div className="flex justify-center bg-ink-900 pb-2">
-          <span className="h-1.5 w-16 rounded-full bg-ink-600" />
+        {/* status bar: time left, dynamic island centred, radios right */}
+        <div className="relative flex items-center justify-between px-4 pt-2 pb-1">
+          <span className="text-[0.7rem] font-semibold text-ink-900">9:41</span>
+
+          <span
+            aria-hidden="true"
+            className="absolute left-1/2 top-1.5 h-4 w-14 -translate-x-1/2 rounded-full bg-ink-900"
+          />
+
+          <span className="flex items-center gap-1 text-ink-900">
+            <SignalHigh size={12} strokeWidth={2.5} aria-hidden="true" />
+            <Wifi size={12} strokeWidth={2.5} aria-hidden="true" />
+            <BatteryFull size={14} strokeWidth={2} aria-hidden="true" />
+          </span>
         </div>
 
         {/* app header: points, streak, notifications, avatar */}
-        <div className="flex items-center gap-2 border-b border-ink-100 px-3 py-2.5">
+        <div className="flex items-center border-b border-ink-100 px-3 py-2.5">
           <span className="text-base font-semibold text-brand-500">B</span>
 
-          <span className="ml-auto flex items-center gap-1">
-            <Star size={13} className="fill-amber-400 text-amber-400" aria-hidden="true" />
-            <span className="text-[0.75rem] font-medium tabular-nums text-ink-900">
-              {mobileHeader.points}
+          {/* counters sit in the middle, bell and avatar share the space to the right */}
+          <span className="flex flex-1 items-center justify-center gap-3">
+            <span className="flex items-center gap-1">
+              <Star size={13} className="fill-amber-400 text-amber-400" aria-hidden="true" />
+              <span className="text-[0.75rem] font-medium tabular-nums text-ink-900">
+                {mobileHeader.points}
+              </span>
+            </span>
+
+            <span className="flex items-center gap-1">
+              <Flame size={13} className="fill-brand-500 text-brand-500" aria-hidden="true" />
+              <span className="text-[0.75rem] font-medium tabular-nums text-ink-900">
+                {mobileHeader.streak}
+              </span>
             </span>
           </span>
 
-          <span className="flex items-center gap-1">
-            <Flame size={13} className="fill-brand-500 text-brand-500" aria-hidden="true" />
-            <span className="text-[0.75rem] font-medium tabular-nums text-ink-900">
-              {mobileHeader.streak}
+          <span className="flex flex-1 items-center justify-between">
+            <Bell size={14} strokeWidth={1.75} className="text-ink-800" aria-hidden="true" />
+
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-100 text-[0.6rem] font-medium text-ink-800">
+              {mobileHeader.initials}
             </span>
-          </span>
-
-          <Bell size={14} strokeWidth={1.75} className="text-ink-800" aria-hidden="true" />
-
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-100 text-[0.6rem] font-medium text-ink-800">
-            {mobileHeader.initials}
           </span>
         </div>
 
@@ -71,7 +85,7 @@ export default function MobileDemo() {
           ) : viewId === "dienste" ? (
             <MobileServicesView />
           ) : (
-            <MobileListView viewId={viewId} done={done} onToggle={toggle} />
+            <MobileListView viewId={viewId} />
           )}
         </div>
 
