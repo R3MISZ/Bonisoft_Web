@@ -1,0 +1,44 @@
+---
+import PortalDemo from "../demo/PortalDemo.tsx";
+import MobileDemo from "../demo/MobileDemo.tsx";
+
+/**
+ * Two sides of the same system, both clickable.
+ * Headings and copy stay static; only the two mocks become islands.
+ */
+---
+
+<section id="produkt" class="bg-white py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="eyebrow">Ein Blick ins Produkt</p>
+    <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
+      Dieselben Daten, zwei Blickwinkel.
+    </h2>
+    <p class="mt-5 max-w-2xl text-lg text-ink-600">
+      Links steuert die Führungskraft, rechts arbeitet die Schicht damit.
+      Klicken Sie sich durch – beide Ansichten zeigen denselben Datenstand.
+    </p>
+
+    <div class="mt-14 grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-start">
+      <div>
+        <h3 class="text-sm font-semibold text-ink-900">Portal · Führungskraft</h3>
+        <p class="mt-1 mb-5 text-sm text-ink-600">
+          Kennzahlen, offene Aufgaben und Besetzung je Standort.
+        </p>
+        <PortalDemo client:visible />
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold text-ink-900">App · Mitarbeitende</h3>
+        <p class="mt-1 mb-5 text-sm text-ink-600">
+          Was heute ansteht, was es gebracht hat – ohne Login-Hürde.
+        </p>
+        <MobileDemo client:visible />
+      </div>
+    </div>
+
+    <p class="mt-10 text-sm text-ink-600">
+      Vereinfachte Demo mit Beispieldaten.
+    </p>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+---
+import ContactForm from "../ContactForm.tsx";
+import { site } from "../../data/site";
+
+/** Only the form is interactive, so only the form is an island. */
+---
+
+<section id="kontakt" class="bg-ink-900 py-24 text-white">
+  <div class="mx-auto grid max-w-6xl gap-12 px-6 lg:grid-cols-2 lg:items-start">
+    <div>
+      <p class="eyebrow">Nächster Schritt</p>
+      <h2 class="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+        Lassen Sie uns prüfen, wo Ihre Potenziale liegen.
+      </h2>
+      <p class="mt-5 max-w-lg text-lg text-ink-300">
+        Ein kurzes Gespräch reicht, um einzuschätzen, welches Modul bei Ihnen den
+        größten Hebel hat. Unverbindlich und kostenlos.
+      </p>
+
+      <dl class="mt-10 space-y-5">
+        <div>
+          <dt class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-600">E-Mail</dt>
+          <dd class="mt-1">
+            <a href={`mailto:${site.email}`} class="text-lg hover:text-brand-500">{site.email}</a>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-600">Telefon</dt>
+          <dd class="mt-1">
+            <a href={`tel:${site.phoneHref}`} class="text-lg hover:text-brand-500">{site.phone}</a>
+          </dd>
+        </div>
+      </dl>
+
+      <p class="mt-8 text-sm text-ink-300">Antwort innerhalb von 24 Stunden.</p>
+    </div>
+
+    <ContactForm client:visible />
+  </div>
+</section>

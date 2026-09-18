@@ -1,0 +1,46 @@
+---
+import { perspectives } from "../../data/reality";
+
+/** Static section. Two perspectives side by side, no JavaScript. */
+---
+
+<section id="realitaet" class="bg-white py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="eyebrow">Die operative Realität</p>
+    <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
+      Zwei Welten, die aneinander vorbeireden.
+    </h2>
+    <p class="mt-5 max-w-2xl text-lg text-ink-600">
+      Die folgenden Aussagen sind keine Annahmen. Sie stammen aus direkten Gesprächen
+      mit Führungskräften und operativen Mitarbeitenden.
+    </p>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-2">
+      {perspectives.map(({ audience, source, claim, points }) => (
+        <article class="rounded-2xl border border-ink-100 bg-ink-100/40 p-8">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-600">
+            {audience}
+          </p>
+          <blockquote class="mt-4 text-2xl font-medium leading-snug text-ink-900">
+            „{claim}“
+          </blockquote>
+          <p class="mt-2 text-sm text-ink-600">{source}</p>
+
+          <ul class="mt-8 space-y-3 border-t border-ink-300/40 pt-6">
+            {points.map((point) => (
+              <li class="flex gap-3 text-ink-800">
+                <span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500"></span>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <p class="mt-14 max-w-2xl text-lg text-ink-800">
+      Beide Seiten wollen dasselbe – sie sehen es nur nicht voneinander.
+      <span class="text-ink-600">Genau an dieser Lücke setzt Bonisoft an.</span>
+    </p>
+  </div>
+</section>

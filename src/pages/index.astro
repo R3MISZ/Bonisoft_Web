@@ -1,0 +1,50 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.tsx";
+import Footer from "../components/Footer.astro";
+import CtaBanner from "../components/CtaBanner.astro";
+
+import Hero from "../components/sections/Hero.astro";
+import Reality from "../components/sections/Reality.astro";
+import Solution from "../components/sections/Solution.astro";
+import ProductDemo from "../components/sections/ProductDemo.astro";
+import WhyBonisoft from "../components/sections/WhyBonisoft.astro";
+import HowItWorks from "../components/sections/HowItWorks.astro";
+import Platform from "../components/sections/Platform.astro";
+import Industries from "../components/sections/Industries.astro";
+import BusinessCase from "../components/sections/BusinessCase.astro";
+import Trust from "../components/sections/Trust.astro";
+import Team from "../components/sections/Team.astro";
+import Faq from "../components/sections/Faq.astro";
+import Contact from "../components/sections/Contact.astro";
+
+import { site } from "../data/site";
+---
+
+<Layout title={site.title} description={site.description}>
+  <Nav client:load />
+  <main>
+    <Hero />
+    <Reality />
+    <Solution />
+    <ProductDemo />
+    <CtaBanner
+      headline="Klingt nach Ihrem Betrieb?"
+      text="Wir schauen gemeinsam, welches Modul zuerst Wirkung zeigt."
+    />
+    <WhyBonisoft />
+    <HowItWorks />
+    <Platform />
+    <Industries />
+    <BusinessCase />
+    <CtaBanner
+      headline="Rechnen Sie mit Ihren Zahlen nach."
+      text="Wir gehen die Annahmen in einem kurzen Gespräch mit Ihnen durch."
+    />
+    <Trust />
+    <Team />
+    <Faq />
+    <Contact />
+  </main>
+  <Footer />
+</Layout>

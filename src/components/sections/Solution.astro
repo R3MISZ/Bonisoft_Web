@@ -1,0 +1,47 @@
+---
+import { pillars } from "../../data/pillars";
+import ModuleSelector from "../ModuleSelector.tsx";
+
+/**
+ * Opens with the three pillars, then the modules.
+ * Only the module tabs are interactive, so only they become an island.
+ */
+---
+
+<section id="loesung" class="bg-ink-900 py-24 text-white">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="eyebrow">Die Lösung</p>
+    <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
+      Eine Plattform, die beide Seiten sichtbar macht.
+    </h2>
+    <p class="mt-5 max-w-2xl text-lg text-ink-300">
+      Bonisoft hilft Unternehmen, Leistung gerecht sichtbar zu machen – durch
+      datenbasierte Incentivierung, klare Kennzahlen und individuelle Anerkennung.
+    </p>
+
+    <dl class="mt-14 grid gap-px overflow-hidden rounded-2xl bg-white/10 sm:grid-cols-3">
+      {pillars.map(({ title, text }) => (
+        <div class="bg-ink-900 p-8">
+          <dt class="text-lg font-semibold text-brand-500">{title}</dt>
+          <dd class="mt-3 text-ink-300">{text}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<section class="bg-white py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="eyebrow">Unsere Module</p>
+    <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
+      Modular, flexibel, wirksam.
+    </h2>
+    <p class="mt-5 max-w-2xl text-lg text-ink-600">
+      Starten Sie mit dem Modul, das den größten Hebel hat. Kein All-or-nothing.
+    </p>
+
+    <div class="mt-14">
+      <ModuleSelector client:visible />
+    </div>
+  </div>
+</section>

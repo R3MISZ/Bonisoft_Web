@@ -1,0 +1,25 @@
+---
+/**
+ * Placeholder frame for app screenshots.
+ * Swap the inner div for an <Image> once real screenshots exist —
+ * every call site keeps its size and caption.
+ */
+interface Props {
+  caption: string;
+  ratio?: "phone" | "wide";
+  class?: string;
+}
+
+const { caption, ratio = "wide", class: className = "" } = Astro.props;
+const aspect = ratio === "phone" ? "aspect-[9/19]" : "aspect-[16/10]";
+---
+
+<figure class={className}>
+  <div
+    class={`${aspect} flex items-center justify-center rounded-2xl border border-dashed border-ink-300 bg-ink-100/60 text-center`}
+  >
+    <span class="px-6 text-sm text-ink-600">
+      Screenshot folgt<br /><span class="text-xs">{caption}</span>
+    </span>
+  </div>
+</figure>

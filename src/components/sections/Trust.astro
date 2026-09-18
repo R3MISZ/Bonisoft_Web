@@ -1,0 +1,42 @@
+---
+/**
+ * DSGVO and hosting. Was buried in the FAQ on the live site, but it is a
+ * buying criterion in German B2B — so it gets its own block.
+ */
+const facts = [
+  {
+    title: "Hosting in Deutschland",
+    text: "Betrieb in deutschen Rechenzentren. Keine Datenübermittlung in Drittstaaten.",
+  },
+  {
+    title: "DSGVO-konform",
+    text: "Auftragsverarbeitungsvertrag, Löschkonzept und dokumentierte Verarbeitung ab Tag eins.",
+  },
+  {
+    title: "Steuerung statt Überwachung",
+    text: "Kennzahlen sind auf Teams und Prozesse ausgelegt – nicht auf die Kontrolle Einzelner.",
+  },
+  {
+    title: "Entwicklung im Haus",
+    text: "Produkt und Betrieb liegen bei uns. Ansprechpartner statt Ticketsystem.",
+  },
+];
+---
+
+<section class="border-y border-ink-100 bg-ink-100/50 py-20">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="eyebrow">Datenschutz & Betrieb</p>
+    <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight">
+      Leistungsdaten sind heikel. Entsprechend gehen wir damit um.
+    </h2>
+
+    <dl class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {facts.map(({ title, text }) => (
+        <div>
+          <dt class="font-semibold text-ink-900">{title}</dt>
+          <dd class="mt-2 text-sm text-ink-600">{text}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>

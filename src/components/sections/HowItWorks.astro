@@ -1,0 +1,150 @@
+---
+import { ArrowRight, CornerRightDown, CornerRightUp } from "lucide-react";
+import { steps, rewardStep, laneLabels, type Lane } from "../../data/steps";
+
+/**
+ * Two swimlanes on a five-column timeline. Static, no JavaScript.
+ * The lane change between step 2 and 3 is the point of the diagram:
+ * that is where the handover between office and shop floor happens.
+ */
+const managerSteps = steps.filter((step) => step.lane === "manager");
+const employeeSteps = steps.filter((step) => step.lane === "employee");
+
+/** Arrow leaving each card: straight within a lane, cornered across lanes. */
+const connectors: Record<number, typeof ArrowRight | null> = {
+  1: ArrowRight,
+  2: CornerRightDown,
+  3: CornerRightUp,
+  4: ArrowRight,
+  5: null,
+};
+
+const laneRow = (lane: Lane) => (lane === "manager" ? 1 : 2);
+const allSteps = [...steps, rewardStep];
+---
+
+<section id="so-funktionierts" class="bg-ink-900 py-24 text-white">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="eyebrow">So funktioniert es</p>
+    <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
+      In fünf Schritten zu messbarer Verbesserung.
+    </h2>
+    <p class="mt-5 max-w-2xl text-lg text-ink-300">
+      Der Kreislauf läuft über zwei Rollen. Entscheidend ist der Punkt, an dem er
+      vom Büro auf die Fläche wechselt – und wieder zurück.
+    </p>
+
+    <!-- desktop: swimlanes on a timeline -->
+    <div class="mt-16 hidden lg:block">
+      <div class="grid grid-cols-[9rem_repeat(5,1fr)] gap-x-12 gap-y-6">
+        {
+          [
+            { lane: "manager" as Lane, items: managerSteps },
+            { lane: "employee" as Lane, items: [...employeeSteps, rewardStep] },
+          ].map(({ lane, items }) => (
+            <>
+              <div
+                class="flex items-center border-r border-white/10 pr-5 text-sm font-medium text-brand-500"
+                style={`grid-row: ${laneRow(lane)}; grid-column: 1;`}
+              >
+                {laneLabels[lane]}
+              </div>
+
+              {items.map((step) => {
+                const Connector = step.title === rewardStep.title ? null : connectors[step.column];
+                const isReward = step.title === rewardStep.title;
+
+                return (
+                  <div
+                    class="relative"
+                    style={`grid-row: ${laneRow(lane)}; grid-column: ${step.column + 1};`}
+                  >
+                    <article
+                      class={`h-full rounded-xl p-5 ${
+                        isReward ? "border border-dashed border-brand-500/60" : "bg-white/5"
+                      }`}
+                    >
+                      {isReward ? (
+                        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-brand-500">
+                          Parallel
+                        </p>
+                      ) : (
+                        <p class="text-xs tabular-nums text-brand-500">
+                          {String(step.column).padStart(2, "0")}
+                        </p>
+                      )}
+                      <h3 class="mt-2 font-semibold text-white">{step.title}</h3>
+                      <p class="mt-2 text-sm text-ink-300">{step.text}</p>
+                    </article>
+
+                    {Connector && (
+                      <span
+                        class="flow-arrow absolute top-1/2 -right-[2.25rem] -translate-y-1/2"
+                        style={`--step: ${step.column - 1};`}
+                      >
+                        <Connector size={24} strokeWidth={2} aria-hidden="true" />
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- mobile: same steps stacked, lane shown per card -->
+    <ol class="mt-12 space-y-3 lg:hidden">
+      {
+        allSteps.map((step) => {
+          const isReward = step.title === rewardStep.title;
+
+          return (
+            <li class={`rounded-xl p-5 ${isReward ? "border border-dashed border-brand-500/60" : "bg-white/5"}`}>
+              <div class="flex items-center gap-3">
+                <span class="text-xs tabular-nums text-brand-500">
+                  {isReward ? "Parallel" : String(step.column).padStart(2, "0")}
+                </span>
+                <span class="text-xs text-ink-600">{laneLabels[step.lane]}</span>
+              </div>
+              <h3 class="mt-2 font-semibold text-white">{step.title}</h3>
+              <p class="mt-2 text-sm text-ink-300">{step.text}</p>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  /* Arrows light up one after another, following the flow. */
+  .flow-arrow {
+    --cycle: 4.8s;
+    color: var(--color-ink-600);
+    animation: flow-pulse var(--cycle) linear infinite;
+    animation-delay: calc(var(--step) * var(--cycle) / 4);
+  }
+
+  @keyframes flow-pulse {
+    0%,
+    18%,
+    100% {
+      color: var(--color-ink-600);
+      opacity: 0.55;
+    }
+    6% {
+      color: var(--color-brand-500);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flow-arrow {
+      animation: none;
+      color: var(--color-ink-600);
+      opacity: 0.7;
+    }
+  }
+</style>

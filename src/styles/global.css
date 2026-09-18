@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  /* brand palette, taken from bonisoft.de */
+  --color-ink-900: #1b2120;
+  --color-ink-800: #2c3534;
+  --color-ink-600: #5e6e6d;
+  --color-ink-300: #b6c0bf;
+  --color-ink-100: #eef1f1;
+
+  --color-brand-600: #2f9799;
+  --color-brand-500: #42bbbd;
+  --color-brand-100: #e3f5f5;
+
+  --font-sans: "Kanit", system-ui, sans-serif;
+}
+
+/* Section headings use small caps via CSS, so the markup keeps readable text. */
+@utility eyebrow {
+  @apply text-xs font-semibold uppercase tracking-[0.18em] text-brand-600;
+}
+
+:root {
+  /* Content container of the page: max-w-6xl (72rem) with px-6 (1.5rem) gutters.
+     Kept here so effects outside the container can line up with it. */
+  --content-max: 72rem;
+  --content-gutter: 1.5rem;
+  --content-edge: max(var(--content-gutter), calc(50% - var(--content-max) / 2 + var(--content-gutter)));
+}

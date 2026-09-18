@@ -1,0 +1,74 @@
+---
+import { founders, teamGroups } from "../../data/team";
+
+/** Founders with their quotes, then the wider team. Static. */
+const initials = (name: string) =>
+  name
+    .split(" ")
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("");
+---
+
+<section id="team" class="bg-white py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="eyebrow">Wer hinter Bonisoft steht</p>
+    <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
+      Entstanden aus der operativen Praxis.
+    </h2>
+    <p class="mt-5 max-w-2xl text-lg text-ink-600">
+      Bonisoft entstand nicht am Reißbrett, sondern aus einer Beobachtung: Unternehmen
+      investieren in Strategien – aber die Menschen, die sie umsetzen sollen, werden
+      nicht mitgenommen.
+    </p>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-2">
+      {founders.map(({ name, role, quote }) => (
+        <figure class="rounded-2xl border border-ink-100 p-8">
+          <blockquote class="text-lg leading-relaxed text-ink-800">„{quote}“</blockquote>
+          <figcaption class="mt-6 flex items-center gap-4 border-t border-ink-100 pt-6">
+            <div
+              aria-hidden="true"
+              class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-100 text-sm font-semibold text-ink-800"
+            >
+              {initials(name)}
+            </div>
+            <div>
+              <p class="font-semibold text-ink-900">{name}</p>
+              <p class="text-sm text-ink-600">{role}</p>
+            </div>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <div class="mt-16 border-t border-ink-100 pt-12">
+      <h3 class="text-sm font-semibold text-ink-900">Das Team</h3>
+      <p class="mt-2 max-w-2xl text-sm text-ink-600">
+        Produkt und Entwicklung sitzen unter einem Dach – Ihre Rückmeldung landet
+        direkt bei den Leuten, die sie umsetzen.
+      </p>
+
+      <div class="mt-8 grid gap-10 sm:grid-cols-2">
+        {teamGroups.map(({ role, members }) => (
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-brand-600">{role}</p>
+            <ul class="mt-4 space-y-3">
+              {members.map((name) => (
+                <li class="flex items-center gap-3">
+                  <span
+                    aria-hidden="true"
+                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink-100 text-xs font-semibold text-ink-800"
+                  >
+                    {initials(name)}
+                  </span>
+                  <span class="text-ink-900">{name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
