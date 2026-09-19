@@ -37,13 +37,13 @@ export default function PortalDemo() {
   return (
     <div className="overflow-hidden rounded-xl border border-ink-300/60 bg-white shadow-sm">
       <div className="grid grid-cols-[7.5rem_1fr] sm:grid-cols-[9.5rem_1fr]">
-        <nav aria-label="Portalbereiche" className="border-r border-ink-100 bg-ink-100/40 p-2">
-          <img src={brand.wordmarkDark} alt="Bonisoft" className="mx-2 my-1.5 h-4 w-auto" />
+        <nav aria-label="Portalbereiche" className="bg-[#212121] p-2">
+          <img src={brand.wordmarkLight} alt="Bonisoft" className="mx-2 mt-1.5 mb-5 h-4 w-auto" />
 
           {portalNav.map((section) => (
             <div key={section.group ?? "start"} className="mt-2">
               {section.group && (
-                <p className="px-2 pb-1 text-[0.55rem] font-semibold uppercase tracking-wider text-ink-600">
+                <p className="px-2 pb-1 text-[0.55rem] font-semibold uppercase tracking-wider text-white/40">
                   {section.group}
                 </p>
               )}
@@ -59,7 +59,7 @@ export default function PortalDemo() {
                     onClick={() => setViewId(item.id)}
                     aria-current={isActive ? "page" : undefined}
                     className={`mb-0.5 flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[0.68rem] transition-colors ${
-                      isActive ? "bg-brand-500 font-medium text-white" : "text-ink-800 hover:bg-white"
+                      isActive ? "bg-brand-500 font-medium text-white" : "text-ink-300 hover:bg-white/10"
                     }`}
                   >
                     <Icon size={13} strokeWidth={2} className="shrink-0" aria-hidden="true" />
