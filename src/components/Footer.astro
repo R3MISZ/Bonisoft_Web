@@ -12,30 +12,33 @@ const year = new Date().getFullYear();
 
 <footer class="bg-ink-900 text-ink-300">
   <div
-    class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-8 gap-y-4 px-6 py-8 text-sm"
+    class="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-8 text-sm sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-4"
   >
-    <img src={brand.wordmarkLight} alt={site.name} class="h-6 w-auto" />
+    <img src={brand.wordmarkLight} alt={site.name} class="h-6 w-auto self-start" />
 
-    <a href={`mailto:${site.email}`} class="hover:text-white">{site.email}</a>
-    <a href={`tel:${site.phoneHref}`} class="hover:text-white">{site.phone}</a>
+    {/* Kept together so contact details never split across wrapped lines. */}
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <a href={`mailto:${site.email}`} class="hover:text-white">{site.email}</a>
+      <a href={`tel:${site.phoneHref}`} class="hover:text-white">{site.phone}</a>
 
-    <a
-      href={site.linkedin}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Bonisoft auf LinkedIn"
-      class="hover:text-white"
-    >
-      <LinkedInIcon size={16} />
-    </a>
+      <a
+        href={site.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Bonisoft auf LinkedIn"
+        class="hover:text-white"
+      >
+        <LinkedInIcon size={16} />
+      </a>
+    </div>
 
-    <ul class="ml-auto flex flex-wrap gap-6">
+    <ul class="flex flex-wrap gap-x-6 gap-y-2 sm:ml-auto">
       {legalLinks.map(({ href, label }) => (
         <li><a href={href} class="hover:text-white">{label}</a></li>
       ))}
     </ul>
 
-    <p class="w-full text-xs text-ink-600">
+    <p class="text-xs text-ink-600 sm:w-full">
       © {year} {site.legalName}. Alle Rechte vorbehalten.
     </p>
   </div>

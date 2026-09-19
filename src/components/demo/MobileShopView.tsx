@@ -14,10 +14,10 @@ export default function MobileShopView() {
             {benefits.tiles.map((tile) => (
               <div
                 key={tile.name}
-                className="flex h-16 w-[5.5rem] shrink-0 flex-col justify-end rounded-lg bg-ink-100 p-2"
+                className={`flex h-16 w-[5.5rem] shrink-0 flex-col justify-end rounded-lg p-2 ${tile.color}`}
               >
-                <span className="text-[0.65rem] font-medium text-ink-900">{tile.name}</span>
-                <span className="text-[0.6rem] text-ink-600">{tile.hint}</span>
+                <span className="text-[0.65rem] font-medium text-white">{tile.name}</span>
+                <span className="text-[0.6rem] text-white/75">{tile.hint}</span>
               </div>
             ))}
           </div>

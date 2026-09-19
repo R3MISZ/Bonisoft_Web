@@ -7,6 +7,15 @@ import { portalActionModules, portalServiceModules } from "./portal";
  */
 export type MobileViewId = (typeof mobileNav)[number]["id"];
 
+/**
+ * Actions this employee already finished today. They exist in the portal like
+ * every other action — the app just shows them below the open ones, greyed out.
+ */
+const doneToday: Record<string, string> = {
+  "Schichtübergabe dokumentieren": "Heute, 06:12 Uhr",
+  "Wareneingang prüfen": "Heute, 07:40 Uhr",
+};
+
 /** Bottom navigation of the employee app. Order matters. */
 export const mobileNav = [
   { id: "aktionen", label: "Aktionen" },
@@ -28,11 +37,24 @@ export const mobileListViews = {
   aktionen: {
     title: "Heute zu erledigen",
     /* Same tasks the manager configured in the portal — one source, two views. */
-    rows: portalActionModules.cards.map((card) => ({
-      title: card.name,
-      meta: card.description,
-      points: card.reward,
-    })),
+    rows: portalActionModules.cards
+      .filter((card) => !(card.name in doneToday))
+      .map((card) => ({
+        title: card.name,
+        meta: card.description,
+        points: card.reward,
+        icon: card.icon,
+      })),
+    /* Sits below the open tasks, greyed out — done is done, but it stays visible. */
+    doneHeading: "Erledigte Aktionen",
+    done: portalActionModules.cards
+      .filter((card) => card.name in doneToday)
+      .map((card) => ({
+        title: card.name,
+        meta: doneToday[card.name],
+        points: card.reward,
+        icon: card.icon,
+      })),
   },
   dashboard: {
     title: "Deine Woche",
@@ -47,19 +69,31 @@ export const mobileListViews = {
       { title: "Streak", meta: "2 Wochen in Folge", status: "+100" },
     ],
   },
-  konto: {
-    title: "Dein Konto",
-    stats: [
-      { label: "Punktestand", value: "890" },
-      { label: "Sachbezug frei", value: "50 €" },
-    ],
-    rows: [
-      { title: "Hallenrundgang", meta: "18.09. · Aufgabe", status: "+50" },
-      { title: "Pickingquote Woche 37", meta: "16.09. · Ziel erreicht", status: "+200" },
-      { title: "Tankgutschein", meta: "12.09. · eingelöst", status: "−1.000" },
-      { title: "Anwesenheitsprämie", meta: "01.09. · monatlich", status: "+300" },
-    ],
-  },
+} as const;
+
+/**
+ * Konto tab: the partner grid the employee picks from. Names are invented —
+ * no third-party logos on a public marketing page without a licence.
+ */
+export const mobileAccount = {
+  searchPlaceholder: "Suchen",
+  partners: [
+    { name: "Tankstelle", color: "bg-red-600" },
+    { name: "Supermarkt", color: "bg-emerald-600" },
+    { name: "Baumarkt", color: "bg-amber-500" },
+    { name: "Elektronik", color: "bg-sky-600" },
+    { name: "Möbelhaus", color: "bg-rose-500" },
+    { name: "Drogerie", color: "bg-violet-600" },
+    { name: "Mode", color: "bg-ink-800" },
+    { name: "Streaming", color: "bg-teal-600" },
+    { name: "Sport", color: "bg-orange-500" },
+    { name: "Buchhandel", color: "bg-indigo-500" },
+    { name: "Restaurant", color: "bg-lime-600" },
+    { name: "Reise", color: "bg-cyan-600" },
+    { name: "Kaffee", color: "bg-yellow-600" },
+    { name: "Spielwaren", color: "bg-fuchsia-600" },
+    { name: "Mietwagen", color: "bg-slate-600" },
+  ],
 } as const;
 
 /**
@@ -70,9 +104,9 @@ export const mobileShop = {
   benefits: {
     heading: "Steuerfreier Sachbezug",
     tiles: [
-      { name: "Tankkarte", hint: "50 € / Monat" },
-      { name: "Supermarkt", hint: "frei wählbar" },
-      { name: "Weitere", hint: "30+ Partner" },
+      { name: "Tankkarte", hint: "50 € / Monat", color: "bg-blue-600" },
+      { name: "Supermarkt", hint: "frei wählbar", color: "bg-red-600" },
+      { name: "Weitere", hint: "30+ Partner", color: "bg-emerald-600" },
     ],
   },
   bonus: {

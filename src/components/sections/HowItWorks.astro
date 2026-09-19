@@ -1,5 +1,4 @@
 ---
-import { ArrowRight, CornerRightDown, CornerRightUp } from "lucide-react";
 import { steps, rewardStep, laneLabels, type Lane } from "../../data/steps";
 import FlowEdge from "../FlowEdge.astro";
 
@@ -11,17 +10,12 @@ import FlowEdge from "../FlowEdge.astro";
 const managerSteps = steps.filter((step) => step.lane === "manager");
 const employeeSteps = steps.filter((step) => step.lane === "employee");
 
-/** Arrow leaving each card: straight within a lane, cornered across lanes. */
-const connectors: Record<number, typeof ArrowRight | null> = {
-  1: ArrowRight,
-  2: CornerRightDown,
-  3: CornerRightUp,
-  4: ArrowRight,
-  5: null,
-};
-
 const laneRow = (lane: Lane) => (lane === "manager" ? 1 : 2);
-const allSteps = [...steps, rewardStep];
+/* Stacked order for the phone: along the timeline, upper lane first, so the
+   parallel card sits directly under step 04 instead of after step 05. */
+const allSteps = [...steps, rewardStep].sort(
+  (a, b) => a.column - b.column || laneRow(a.lane) - laneRow(b.lane),
+);
 ---
 
 <section id="so-funktionierts" class="bg-ink-900 py-24 text-white">
@@ -37,7 +31,7 @@ const allSteps = [...steps, rewardStep];
 
     <!-- desktop: swimlanes on a timeline -->
     <div class="mt-16 hidden lg:block">
-      <div class="grid grid-cols-[9rem_repeat(5,1fr)] gap-x-12 gap-y-6">
+      <div class="grid grid-cols-[9rem_repeat(5,1fr)] gap-x-5 gap-y-4">
         {
           [
             { lane: "manager" as Lane, items: managerSteps },
@@ -52,7 +46,6 @@ const allSteps = [...steps, rewardStep];
               </div>
 
               {items.map((step) => {
-                const Connector = step.title === rewardStep.title ? null : connectors[step.column];
                 const isReward = step.title === rewardStep.title;
 
                 return (
@@ -65,7 +58,7 @@ const allSteps = [...steps, rewardStep];
                         isReward ? "border border-dashed border-brand-500/60" : "bg-white/5"
                       }`}
                     >
-                      <FlowEdge beat={(step.column - 1) * 2} />
+                      <FlowEdge beat={step.column - 1} />
 
                       {isReward ? (
                         <p class="text-xs font-semibold uppercase tracking-[0.18em] text-brand-500">
@@ -79,15 +72,6 @@ const allSteps = [...steps, rewardStep];
                       <h3 class="mt-2 font-semibold text-white">{step.title}</h3>
                       <p class="mt-2 text-sm text-ink-300">{step.text}</p>
                     </article>
-
-                    {Connector && (
-                      <span
-                        class="flow-arrow absolute top-1/2 -right-[2.25rem] -translate-y-1/2"
-                        style={`--beat: ${(step.column - 1) * 2 + 1};`}
-                      >
-                        <Connector size={24} strokeWidth={2} aria-hidden="true" />
-                      </span>
-                    )}
                   </div>
                 );
               })}
@@ -104,7 +88,9 @@ const allSteps = [...steps, rewardStep];
           const isReward = step.title === rewardStep.title;
 
           return (
-            <li class={`rounded-xl p-5 ${isReward ? "border border-dashed border-brand-500/60" : "bg-white/5"}`}>
+            <li class={`relative rounded-xl p-5 ${isReward ? "border border-dashed border-brand-500/60" : "bg-white/5"}`}>
+              <FlowEdge beat={step.column - 1} />
+
               <div class="flex items-center gap-3">
                 <span class="text-xs tabular-nums text-brand-500">
                   {isReward ? "Parallel" : String(step.column).padStart(2, "0")}
@@ -120,40 +106,3 @@ const allSteps = [...steps, rewardStep];
     </ol>
   </div>
 </section>
-
-
-
-<style>
-  /*
-   * The arrows flash between the cards on the shared nine-beat timeline.
-   * The card outlines live in FlowEdge.astro and share the same rhythm.
-   */
-  .flow-arrow {
-    --cycle: 6.3s;
-    --beats: 9;
-    color: var(--color-ink-600);
-    opacity: 0.55;
-    animation: flow-pulse var(--cycle) linear infinite;
-    animation-delay: calc(var(--beat) * var(--cycle) / var(--beats));
-  }
-
-  @keyframes flow-pulse {
-    0% {
-      color: var(--color-brand-500);
-      opacity: 1;
-    }
-    9%,
-    100% {
-      color: var(--color-ink-600);
-      opacity: 0.55;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .flow-arrow {
-      animation: none;
-      color: var(--color-ink-600);
-      opacity: 0.7;
-    }
-  }
-</style>

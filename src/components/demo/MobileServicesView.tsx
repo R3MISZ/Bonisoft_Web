@@ -32,13 +32,13 @@ export default function MobileServicesView() {
         ))}
 
         {mobileServices.map((service) => {
-          const { Icon, color } = moduleLook(service.type);
+          const { Icon, textColor } = moduleLook(service.type);
 
           return (
             <li key={service.name}>
               <button type="button" className={tileClass}>
-                <span className={`flex h-8 w-8 items-center justify-center rounded-lg ${color}`}>
-                  <Icon size={17} strokeWidth={2} className="text-white" aria-hidden="true" />
+                <span className="flex h-8 w-8 items-center justify-center">
+                  <Icon size={22} strokeWidth={1.75} className={textColor} aria-hidden="true" />
                 </span>
                 <span className="text-[0.68rem] leading-tight text-ink-900">{service.name}</span>
                 <span className="text-[0.55rem] leading-tight text-ink-600">{service.type}</span>

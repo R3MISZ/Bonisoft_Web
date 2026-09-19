@@ -31,3 +31,27 @@
     scrollbar-gutter: stable;
   }
 }
+/*
+ * Both demos: entries the visitor has not opened yet glow together, so the mock
+ * reads as clickable. The resting colour differs between the dark sidebar and
+ * the light tab bar, so callers set --hint-base.
+ */
+@keyframes demo-hint {
+  0%,
+  100% {
+    color: var(--hint-base, var(--color-ink-300));
+  }
+  50% {
+    color: var(--color-brand-500);
+  }
+}
+
+.demo-hint {
+  animation: demo-hint 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .demo-hint {
+    animation: none;
+  }
+}

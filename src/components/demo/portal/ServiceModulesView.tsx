@@ -7,12 +7,17 @@ export default function ServiceModulesView() {
   return (
     <ul className="grid grid-cols-2 gap-2.5">
       {portalServiceModules.cards.map((card) => {
-        const { Icon } = moduleLook(card.type);
+        const { Icon, textColor } = moduleLook(card.type);
 
         return (
           <li key={card.name} className="rounded-lg border border-ink-100 p-3">
             <div className="flex items-center gap-2">
-              <Icon size={15} strokeWidth={2} className="shrink-0 text-ink-800" aria-hidden="true" />
+              <Icon
+                size={16}
+                strokeWidth={1.75}
+                className={`shrink-0 ${textColor}`}
+                aria-hidden="true"
+              />
               <p className="truncate text-[0.7rem] font-medium text-ink-900">{card.name}</p>
             </div>
 

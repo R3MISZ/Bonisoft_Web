@@ -17,6 +17,7 @@ import { brand } from "../../data/brand";
 import MobileListView from "./MobileListView";
 import MobileShopView from "./MobileShopView";
 import MobileServicesView from "./MobileServicesView";
+import MobileAccountView from "./MobileAccountView";
 
 /** Icons live here, not in the data file — the data stays plain content. */
 const navIcons: Record<MobileViewId, typeof Clock> = {
@@ -27,13 +28,22 @@ const navIcons: Record<MobileViewId, typeof Clock> = {
   dienste: BriefcaseBusiness,
 };
 
+const initialView: MobileViewId = "aktionen";
+
 /** Employee view: phone frame, app header, bottom navigation. */
 export default function MobileDemo() {
-  const [viewId, setViewId] = useState<MobileViewId>("shop");
+  const [viewId, setViewId] = useState<MobileViewId>(initialView);
+  /* The starting view is on screen already, so it never needs the hint. */
+  const [opened, setOpened] = useState<MobileViewId[]>([initialView]);
+
+  const open = (id: MobileViewId) => {
+    setViewId(id);
+    setOpened((seen) => (seen.includes(id) ? seen : [...seen, id]));
+  };
 
   return (
-    <div className="mx-auto w-full max-w-[17rem]">
-      <div className="overflow-hidden rounded-[2rem] border-[6px] border-ink-900 bg-white shadow-sm">
+    <div className="mx-auto w-full max-w-68">
+      <div className="overflow-hidden rounded-4xl border-[6px] border-ink-900 bg-white shadow-sm">
         {/* status bar: time left, dynamic island centred, radios right */}
         <div className="relative flex items-center justify-between px-4 pt-2 pb-1">
           <span className="text-[0.7rem] font-semibold text-ink-900">9:41</span>
@@ -80,11 +90,13 @@ export default function MobileDemo() {
           </span>
         </div>
 
-        <div className="h-[23rem] overflow-y-auto">
+        <div className="h-100 overflow-y-auto">
           {viewId === "shop" ? (
             <MobileShopView />
           ) : viewId === "dienste" ? (
             <MobileServicesView />
+          ) : viewId === "konto" ? (
+            <MobileAccountView />
           ) : (
             <MobileListView viewId={viewId} />
           )}
@@ -92,21 +104,21 @@ export default function MobileDemo() {
 
         <nav
           aria-label="App-Navigation"
-          className="grid grid-cols-5 border-t border-ink-100 bg-white"
+          className="grid grid-cols-5 border-t border-ink-100 bg-white p-1"
         >
           {mobileNav.map((item) => {
             const Icon = navIcons[item.id];
             const isActive = item.id === viewId;
+            const hint = !opened.includes(item.id);
 
             return (
               <button
                 key={item.id}
                 type="button"
-                onClick={() => setViewId(item.id)}
+                onClick={() => open(item.id)}
                 aria-current={isActive ? "page" : undefined}
-                className={`flex flex-col items-center gap-1 px-0.5 py-2 text-[0.55rem] transition-colors ${
-                  isActive ? "font-semibold text-ink-900" : "text-ink-600"
-                }`}
+                className={`flex flex-col items-center gap-1 px-0.5 py-2 text-[0.55rem] transition-colors ${isActive ? "font-semibold text-ink-900" : "text-ink-600"
+                  } ${hint ? "demo-hint [--hint-base:var(--color-ink-600)]" : ""}`}
               >
                 <Icon size={16} strokeWidth={isActive ? 2.25 : 1.75} aria-hidden="true" />
                 {item.label}

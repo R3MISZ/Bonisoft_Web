@@ -16,17 +16,27 @@ import { industries } from "../../data/industries";
     </p>
 
     <div class="mt-14 grid gap-6 lg:grid-cols-2">
-      {industries.map(({ name, text, kpis }) => (
-        <article class="rounded-2xl border border-ink-100 p-8">
-          <h3 class="text-xl font-semibold text-ink-900">{name}</h3>
-          <p class="mt-3 text-ink-600">{text}</p>
+      {industries.map(({ image, name, text, kpis }) => (
+        <article class="overflow-hidden rounded-2xl border border-ink-100">
+          <img
+            src={image}
+            width="1600"
+            height="1200"
+            loading="lazy"
+            alt={name}
+            class="h-48 w-full object-cover"
+          />
 
-          <ul class="mt-6 flex flex-wrap gap-2">
-            {kpis.map((kpi) => (
-              <li class="rounded-full bg-brand-100 px-3 py-1 text-sm text-ink-800">{kpi}</li>
-            ))}
-          </ul>
+          <div class="p-8">
+            <h3 class="text-xl font-semibold text-ink-900">{name}</h3>
+            <p class="mt-3 text-ink-600">{text}</p>
 
+            <ul class="mt-6 flex flex-wrap gap-2">
+              {kpis.map((kpi) => (
+                <li class="rounded-full bg-brand-100 px-3 py-1 text-sm text-ink-800">{kpi}</li>
+              ))}
+            </ul>
+          </div>
         </article>
       ))}
     </div>

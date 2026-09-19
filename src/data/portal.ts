@@ -6,8 +6,8 @@ export type PortalViewId =
   | "dashboard"
   | "mitarbeiter"
   | "gruppen"
-  | "aktionsmodule"
-  | "dienstmodule";
+  | "aktionen"
+  | "dienste";
 
 /** Sidebar, grouped the way the real portal groups it. */
 export const portalNav = [
@@ -22,8 +22,8 @@ export const portalNav = [
   {
     group: "Module",
     items: [
-      { id: "aktionsmodule", label: "Aktionsmodule", icon: "zap" },
-      { id: "dienstmodule", label: "Dienstmodule", icon: "box" },
+      { id: "aktionen", label: "Aktionen", icon: "zap" },
+      { id: "dienste", label: "Dienste", icon: "box" },
     ],
   },
 ] as const;
@@ -68,26 +68,44 @@ export const portalActionModules = {
     {
       name: "Ladungssicherung prüfen",
       description: "Vor jeder Tour prüfen und per Foto bestätigen.",
+      icon: "securing",
       reward: "40",
       participants: "Fuhrpark",
     },
     {
       name: "Hallenrundgang",
       description: "Einmal pro Schicht die Sicherheitspunkte abgehen.",
+      icon: "walkthrough",
       reward: "50",
       participants: "Lager",
     },
     {
       name: "Anwesenheitsquote",
       description: "Wird monatlich automatisch ausgewertet.",
+      icon: "attendance",
       reward: "200",
       participants: "Unbegrenzt",
     },
     {
       name: "Zertifikate & Schulungen",
       description: "Nachweise hochladen und aktuell halten.",
+      icon: "training",
       reward: "150",
       participants: "Unbegrenzt",
+    },
+    {
+      name: "Schichtübergabe dokumentieren",
+      description: "Offene Punkte für die nächste Schicht festhalten.",
+      icon: "handover",
+      reward: "30",
+      participants: "Lager",
+    },
+    {
+      name: "Wareneingang prüfen",
+      description: "Lieferung gegen den Lieferschein abgleichen.",
+      icon: "incoming",
+      reward: "60",
+      participants: "Lager",
     },
   ],
 } as const;

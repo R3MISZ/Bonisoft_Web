@@ -20,18 +20,18 @@ import RealityConnector from "../RealityConnector.astro";
       {perspectives.map(({ audience, source, claim, points }, index) => (
         <>
           {index === 1 && <RealityConnector />}
-        <article class="rounded-2xl border border-ink-100 bg-ink-100/40 p-8">
-          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-600">
+        <article class="rounded-2xl bg-ink-900 p-8">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-300">
             {audience}
           </p>
-          <blockquote class="mt-4 text-2xl font-medium leading-snug text-ink-900">
+          <blockquote class="mt-4 text-2xl font-medium leading-snug text-white">
             „{claim}“
           </blockquote>
-          <p class="mt-2 text-sm text-ink-600">{source}</p>
+          <p class="mt-2 text-sm text-ink-300">{source}</p>
 
-          <ul class="mt-8 space-y-3 border-t border-ink-300/40 pt-6">
+          <ul class="mt-8 space-y-3 border-t border-white/10 pt-6">
             {points.map((point) => (
-              <li class="flex gap-3 text-ink-800">
+              <li class="flex gap-3 text-ink-100">
                 <span aria-hidden="true" class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500"></span>
                 <span>{point}</span>
               </li>

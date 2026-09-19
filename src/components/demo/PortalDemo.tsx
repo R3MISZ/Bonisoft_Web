@@ -1,6 +1,8 @@
 import { useState } from "react";
 import {
   LayoutDashboard, Users, UsersRound, Zap, Box, Bell, Sun, Globe, CircleHelp, ChevronRight,
+  Home,
+  PanelLeft,
 } from "lucide-react";
 import {
   portalNav, portalDashboard, portalEmployees, portalGroups,
@@ -25,14 +27,21 @@ const headings: Record<PortalViewId, { title: string; subtitle: string }> = {
   dashboard: portalDashboard,
   mitarbeiter: portalEmployees,
   gruppen: portalGroups,
-  aktionsmodule: portalActionModules,
-  dienstmodule: portalServiceModules,
+  aktionen: portalActionModules,
+  dienste: portalServiceModules,
 };
 
 /** Manager portal: sidebar, topbar, content. A mock, not the real portal. */
 export default function PortalDemo() {
   const [viewId, setViewId] = useState<PortalViewId>("dashboard");
+  /* Dashboard is on screen from the start, so it never needs the hint. */
+  const [opened, setOpened] = useState<PortalViewId[]>(["dashboard"]);
   const heading = headings[viewId];
+
+  const open = (id: PortalViewId) => {
+    setViewId(id);
+    setOpened((seen) => (seen.includes(id) ? seen : [...seen, id]));
+  };
 
   return (
     <div className="overflow-hidden rounded-xl border border-ink-300/60 bg-white shadow-sm">
@@ -51,16 +60,16 @@ export default function PortalDemo() {
               {section.items.map((item) => {
                 const Icon = navIcons[item.icon];
                 const isActive = item.id === viewId;
+                const hint = !opened.includes(item.id);
 
                 return (
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => setViewId(item.id)}
+                    onClick={() => open(item.id)}
                     aria-current={isActive ? "page" : undefined}
-                    className={`mb-0.5 flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[0.68rem] transition-colors ${
-                      isActive ? "bg-brand-500 font-medium text-white" : "text-ink-300 hover:bg-white/10"
-                    }`}
+                    className={`mb-0.5 flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[0.68rem] transition-colors ${isActive ? "bg-brand-500 font-medium text-white" : "text-ink-300 hover:bg-white/10"
+                      } ${hint ? "demo-hint" : ""}`}
                   >
                     <Icon size={13} strokeWidth={2} className="shrink-0" aria-hidden="true" />
                     <span className="truncate">{item.label}</span>
@@ -72,16 +81,19 @@ export default function PortalDemo() {
         </nav>
 
         {/* fixed height: the frame must not jump when switching views */}
-        <div className="flex h-[31.25rem] flex-col">
+        <div className="flex h-125 flex-col">
           {/* topbar */}
           <div className="flex shrink-0 items-center gap-2 border-b border-ink-100 px-3 py-2">
+            <span className="flex items-center pr-2 text-[0.6rem] text-ink-600">
+              <PanelLeft size={12} />
+            </span>
             <span className="flex items-center gap-1 text-[0.6rem] text-ink-600">
-              Start
+              <Home size={12} aria-hidden="true" />
               <ChevronRight size={10} aria-hidden="true" />
               <span className="text-ink-900">{heading.title}</span>
             </span>
 
-            <span className="ml-auto flex items-center gap-1.5 text-ink-600">
+            <span className="ml-auto flex items-center gap-4 text-ink-600">
               <Bell size={12} aria-hidden="true" />
               <Sun size={12} aria-hidden="true" />
               <Globe size={12} aria-hidden="true" />
@@ -96,8 +108,8 @@ export default function PortalDemo() {
             {viewId === "dashboard" && <DashboardView />}
             {viewId === "mitarbeiter" && <EmployeesView />}
             {viewId === "gruppen" && <GroupsView />}
-            {viewId === "aktionsmodule" && <ActionModulesView />}
-            {viewId === "dienstmodule" && <ServiceModulesView />}
+            {viewId === "aktionen" && <ActionModulesView />}
+            {viewId === "dienste" && <ServiceModulesView />}
           </div>
         </div>
       </div>

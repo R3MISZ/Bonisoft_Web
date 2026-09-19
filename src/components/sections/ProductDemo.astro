@@ -19,13 +19,31 @@ import MobileDemo from "../demo/MobileDemo.tsx";
       Klicken Sie sich durch – beide Ansichten zeigen denselben Datenstand.
     </p>
 
-    <div class="mt-14 grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-start">
+    <div class="mt-14 grid gap-10 lg:grid-cols-[42rem_1fr] lg:items-start">
       <div>
         <h3 class="text-sm font-semibold text-ink-900">Portal · Führungskraft</h3>
         <p class="mt-1 mb-5 text-sm text-ink-600">
           Kennzahlen, offene Aufgaben und Besetzung je Standort.
         </p>
-        <PortalDemo client:visible />
+        {/* Phone: a still of the portal. Its tables need desktop width — below
+            md the live demo pushes the page into horizontal scroll. */}
+        <figure class="md:hidden">
+          <img
+            src="/product/portal-dashboard.webp"
+            width="1919"
+            height="1164"
+            loading="lazy"
+            alt="Portalansicht: Kennzahlen, offene Aufgaben und Besetzung je Standort"
+            class="w-full"
+          />
+          <figcaption class="mt-3 text-xs text-ink-600">
+            Am Desktop lässt sich diese Ansicht durchklicken.
+          </figcaption>
+        </figure>
+
+        <div class="hidden md:block">
+          <PortalDemo client:media="(min-width: 768px)" />
+        </div>
       </div>
 
       <div>

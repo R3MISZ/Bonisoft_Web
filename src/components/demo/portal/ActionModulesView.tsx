@@ -1,16 +1,18 @@
-import { Zap, Trophy, Users } from "lucide-react";
+import { Trophy, Users } from "lucide-react";
 import { portalActionModules } from "../../../data/portal";
+import { actionLook } from "../actionLook";
 
 /** Card grid, one card per action module. */
 export default function ActionModulesView() {
   return (
     <ul className="grid grid-cols-2 gap-2.5">
-      {portalActionModules.cards.map((card) => (
+      {portalActionModules.cards.map((card) => {
+        const { Icon, color } = actionLook(card.icon);
+
+        return (
         <li key={card.name} className="flex flex-col rounded-lg border border-ink-100 p-3">
           <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-brand-100">
-              <Zap size={13} strokeWidth={2} className="text-brand-600" aria-hidden="true" />
-            </span>
+            <Icon size={16} strokeWidth={1.75} className={`shrink-0 ${color}`} aria-hidden="true" />
             <p className="truncate text-[0.7rem] font-medium text-ink-900">{card.name}</p>
           </div>
 
@@ -27,7 +29,8 @@ export default function ActionModulesView() {
             </div>
           </dl>
         </li>
-      ))}
+        );
+      })}
     </ul>
   );
 }

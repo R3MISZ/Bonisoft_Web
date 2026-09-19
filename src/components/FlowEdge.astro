@@ -1,87 +1,52 @@
 ---
 /**
- * Border highlight for a step card. Two paths start at the middle of the left
- * edge: one runs over the top, the other under the bottom, and both end at the
- * middle of the right edge. `pathLength="1"` normalises the dash maths, so the
- * draw takes the same time on both halves regardless of their real length.
+ * Border highlight for a step card: an outline over the card that brightens
+ * from nothing to full and back on its beat, so the cards take turns without
+ * anything moving.
  *
- * The viewBox matches the natural card size; the SVG stretches with the card.
+ * A plain bordered box, not an SVG. An SVG stretched to the card distorts its
+ * corner arcs — wide and flat on a phone, tall and narrow on the desktop grid.
+ * A border follows the card's own radius whatever shape the card takes.
  */
 interface Props {
   beat: number;
 }
 
 const { beat } = Astro.props;
-
-const W = 144;
-const H = 240;
-const R = 12;
-const i = 0.5; // half the stroke width, so the line sits inside the card
-
-const x0 = i;
-const x1 = W - i;
-const y0 = i;
-const y1 = H - i;
-const mid = H / 2;
-
-const overTop = `M ${x0} ${mid} L ${x0} ${y0 + R} A ${R} ${R} 0 0 1 ${x0 + R} ${y0} L ${x1 - R} ${y0} A ${R} ${R} 0 0 1 ${x1} ${y0 + R} L ${x1} ${mid}`;
-const underBottom = `M ${x0} ${mid} L ${x0} ${y1 - R} A ${R} ${R} 0 0 0 ${x0 + R} ${y1} L ${x1 - R} ${y1} A ${R} ${R} 0 0 0 ${x1} ${y1 - R} L ${x1} ${mid}`;
 ---
 
-<svg
+<span
   aria-hidden="true"
-  class="flow-edge pointer-events-none absolute inset-0 h-full w-full"
-  viewBox={`0 0 ${W} ${H}`}
-  preserveAspectRatio="none"
-  fill="none"
-  style={`--beat: ${beat};`}
->
-  <path d={overTop} pathLength="1" vector-effect="non-scaling-stroke" />
-  <path d={underBottom} pathLength="1" vector-effect="non-scaling-stroke" />
-</svg>
+  class="flow-edge pointer-events-none absolute inset-0 rounded-xl border-[1.5px]"
+  style={`--beat: ${beat};`}></span>
 
 <style>
   .flow-edge {
-    --cycle: 6.3s;
-    --beats: 9;
-  }
-
-  .flow-edge path {
-    stroke: var(--color-brand-500);
-    stroke-width: 1.5;
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
+    --cycle: 9s;
+    --beats: 5;
+    border-color: var(--color-brand-500);
     opacity: 0;
-    animation: edge-draw var(--cycle) linear infinite;
+    animation: edge-glow var(--cycle) ease-in-out infinite;
     animation-delay: calc(var(--beat) * var(--cycle) / var(--beats));
   }
 
-  @keyframes edge-draw {
-    0% {
-      stroke-dashoffset: 1;
-      opacity: 1;
-    }
-    7% {
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
-    13% {
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
-    18% {
-      stroke-dashoffset: 0;
-      opacity: 0;
-    }
-    18.01%,
+  /*
+   * Up and down again inside one beat (100 % / --beats = 20 %), so the next
+   * card starts only once this one is dark again.
+   */
+  @keyframes edge-glow {
+    0%,
+    15%,
     100% {
-      stroke-dashoffset: 1;
       opacity: 0;
+    }
+    7.5% {
+      opacity: 1;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .flow-edge path {
+    .flow-edge {
       animation: none;
       opacity: 0;
     }
