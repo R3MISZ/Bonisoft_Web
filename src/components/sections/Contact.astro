@@ -1,7 +1,5 @@
 ---
-import { Phone } from "lucide-react";
 import ContactForm from "../ContactForm.tsx";
-import { site } from "../../data/site";
 
 /** Only the form is interactive, so only the form is an island. */
 ---
@@ -25,16 +23,6 @@ import { site } from "../../data/site";
       </ol>
     </div>
 
-    <div>
-      <ContactForm client:visible />
-
-      <a
-        href={`tel:${site.phoneHref}`}
-        class="mt-4 inline-flex items-center gap-2 text-sm text-ink-300 transition-colors hover:text-white"
-      >
-        <Phone size={16} strokeWidth={1.75} aria-hidden="true" />
-        {site.phone}
-      </a>
-    </div>
+    <ContactForm client:visible />
   </div>
 </section>

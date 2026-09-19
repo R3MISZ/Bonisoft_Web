@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { contactEndpoint, headcountOptions, privacyPath } from "../data/site";
+import { Phone } from "lucide-react";
+import { contactEndpoint, headcountOptions, privacyPath, site } from "../data/site";
 
 type Status = "idle" | "sending" | "sent" | "unconfigured" | "error";
 
@@ -39,7 +40,9 @@ export default function ContactForm() {
       onSubmit={(event) => {
         event.preventDefault();
         void submit(event.currentTarget);
-      }} className="rounded-2xl bg-white/5 p-8">
+      }}
+      className="rounded-2xl bg-white/5 p-8"
+    >
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block">
           <span className="text-sm text-ink-300">Name *</span>
@@ -94,13 +97,25 @@ export default function ContactForm() {
         </span>
       </label>
 
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="mt-5 w-full rounded-full bg-brand-500 px-7 py-3 font-medium text-ink-900 transition-colors hover:bg-brand-600 hover:text-white disabled:opacity-60 sm:w-auto"
-      >
-        {status === "sending" ? "Wird gesendet …" : "Anfrage senden"}
-      </button>
+      <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-3">
+        <button
+          type="submit"
+          disabled={status === "sending"}
+          className="w-full rounded-full bg-brand-500 px-7 py-3 font-medium text-ink-900 transition-colors hover:bg-brand-600 hover:text-white disabled:opacity-60 sm:w-auto"
+        >
+          {status === "sending" ? "Wird gesendet …" : "Anfrage senden"}
+        </button>
+
+        <span className="text-sm text-ink-600">oder</span>
+
+        <a
+          href={`tel:${site.phoneHref}`}
+          className="inline-flex items-center gap-2 text-sm text-ink-300 transition-colors hover:text-white"
+        >
+          <Phone size={16} strokeWidth={1.75} aria-hidden="true" />
+          {site.phone}
+        </a>
+      </div>
 
       <p aria-live="polite" className="mt-4 text-sm">
         {status === "unconfigured" && (
