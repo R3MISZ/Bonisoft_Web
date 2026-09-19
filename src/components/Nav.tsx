@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { navLinks, site } from "../data/site";
+import { brand } from "../data/brand";
 import LinkedInIcon from "./icons/LinkedInIcon";
 
 /**
@@ -20,8 +21,15 @@ export default function Nav() {
 
   /** Scrollspy: the section crossing the middle of the screen wins. */
   useEffect(() => {
-    const sections = navLinks
-      .map(({ href }) => document.querySelector(href))
+    /* A nav entry can span several sections; it stays marked while any of them shows. */
+    const owned = navLinks.map((link) => [
+      link.href,
+      "also" in link ? [link.href, ...link.also] : [link.href],
+    ]) as [string, string[]][];
+
+    const sections = owned
+      .flatMap(([, selectors]) => selectors)
+      .map((selector) => document.querySelector(selector))
       .filter((section): section is Element => section !== null);
 
     if (sections.length === 0) return;
@@ -31,13 +39,15 @@ export default function Nav() {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          const href = `#${entry.target.id}`;
-          if (entry.isIntersecting) visible.add(href);
-          else visible.delete(href);
+          const selector = `#${entry.target.id}`;
+          if (entry.isIntersecting) visible.add(selector);
+          else visible.delete(selector);
         }
 
-        const current = navLinks.find(({ href }) => visible.has(href));
-        setActiveHref(current?.href ?? null);
+        const current = owned.find(([, selectors]) =>
+          selectors.some((selector) => visible.has(selector)),
+        );
+        setActiveHref(current?.[0] ?? null);
       },
       { rootMargin: "-45% 0px -50% 0px" },
     );
@@ -53,11 +63,11 @@ export default function Nav() {
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#top" className="text-lg font-semibold tracking-tight text-white">
-          {site.name}
+        <a href="#top" aria-label={site.name}>
+          <img src={brand.wordmarkLight} alt={site.name} className="h-7 w-auto" />
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 xl:flex">
           {navLinks.map(({ href, label }) => (
             <a
               key={href}
@@ -96,7 +106,7 @@ export default function Nav() {
           onClick={() => setMenuOpen((open) => !open)}
           aria-expanded={menuOpen}
           aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
-          className="text-white md:hidden"
+          className="text-white xl:hidden"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
@@ -105,7 +115,7 @@ export default function Nav() {
       </div>
 
       {menuOpen && (
-        <nav className="border-t border-white/10 px-6 pb-6 md:hidden">
+        <nav className="border-t border-white/10 px-6 pb-6 xl:hidden">
           {navLinks.map(({ href, label }) => (
             <a
               key={href}

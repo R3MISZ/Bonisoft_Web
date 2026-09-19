@@ -1,4 +1,5 @@
 ---
+import { Phone } from "lucide-react";
 import ContactForm from "../ContactForm.tsx";
 import { site } from "../../data/site";
 
@@ -13,28 +14,27 @@ import { site } from "../../data/site";
         Lassen Sie uns prüfen, wo Ihre Potenziale liegen.
       </h2>
       <p class="mt-5 max-w-lg text-lg text-ink-300">
-        Ein kurzes Gespräch reicht, um einzuschätzen, welches Modul bei Ihnen den
+        Ein kurzes Gespräch reicht, um einzuschätzen, welche Kennzahl bei Ihnen den
         größten Hebel hat. Unverbindlich und kostenlos.
       </p>
 
-      <dl class="mt-10 space-y-5">
-        <div>
-          <dt class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-600">E-Mail</dt>
-          <dd class="mt-1">
-            <a href={`mailto:${site.email}`} class="text-lg hover:text-brand-500">{site.email}</a>
-          </dd>
-        </div>
-        <div>
-          <dt class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-600">Telefon</dt>
-          <dd class="mt-1">
-            <a href={`tel:${site.phoneHref}`} class="text-lg hover:text-brand-500">{site.phone}</a>
-          </dd>
-        </div>
-      </dl>
-
-      <p class="mt-8 text-sm text-ink-300">Antwort innerhalb von 24 Stunden.</p>
+      <ol class="mt-10 space-y-4 border-l border-white/10 pl-6 text-sm text-ink-300">
+        <li><span class="font-medium text-white">Sie senden das Formular.</span> Vier Felder, mehr brauchen wir nicht.</li>
+        <li><span class="font-medium text-white">Wir melden uns innerhalb von 24 Stunden.</span> Maximilian oder Michael, persönlich.</li>
+        <li><span class="font-medium text-white">20 Minuten am Telefon.</span> Wir schauen, wo bei Ihnen der größte Hebel liegt – ohne Präsentation und ohne Verpflichtung.</li>
+      </ol>
     </div>
 
-    <ContactForm client:visible />
+    <div>
+      <ContactForm client:visible />
+
+      <a
+        href={`tel:${site.phoneHref}`}
+        class="mt-4 inline-flex items-center gap-2 text-sm text-ink-300 transition-colors hover:text-white"
+      >
+        <Phone size={16} strokeWidth={1.75} aria-hidden="true" />
+        {site.phone}
+      </a>
+    </div>
   </div>
 </section>

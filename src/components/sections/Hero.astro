@@ -2,36 +2,51 @@
 /**
  * Opening section. Purely static: no client directive, no JavaScript shipped.
  * Headline text stays in the component because it appears exactly once.
+ *
+ * Both product shots are cutouts with transparency, so the phone can sit in
+ * front of the portal without a frame. Width and height are set on the tags so
+ * the browser reserves the space before the files arrive.
  */
+const portal = { src: "/product/portal-dashboard.webp", w: 1919, h: 1164 };
+const mobile = { src: "/product/mobile-iphone.webp", w: 1600, h: 1164 };
 ---
 
-<section id="top" class="relative bg-ink-900 text-white">
-  <div class="mx-auto max-w-6xl px-6 pt-40 pb-28">
-    <p class="eyebrow">Operative Mitarbeiter-App</p>
+<section id="top" class="bg-ink-900 text-white">
+  <div
+    class="mx-auto grid max-w-6xl gap-14 px-6 pt-36 pb-28 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-10"
+  >
+    <div>
+      <h1 class="text-4xl leading-tight font-semibold tracking-tight sm:text-5xl">
+        Kosten senken, Ausfälle vermeiden,{" "}
+        <span class="text-brand-500">Prozesstreue sichern.</span>
+      </h1>
 
-    <h1 class="mt-6 max-w-4xl text-4xl leading-tight font-semibold tracking-tight sm:text-5xl md:text-6xl">
-      Weniger Sprit, weniger Krankheitstage,{" "}
-      <span class="text-brand-500">mehr Prozesstreue.</span>
-    </h1>
+      <p class="mt-6 max-w-xl text-lg text-ink-300">
+        Für Betriebe mit 100 bis 1.500 Mitarbeitenden in Logistik, Produktion, Handwerk
+        und Service. Bonisoft macht operative Leistung messbar – dort, wo klassische
+        Systeme nicht ankommen.
+      </p>
+    </div>
 
-    <p class="mt-6 max-w-2xl text-lg text-ink-300">
-      Bonisoft macht operative Leistung messbar, Prozesse transparent und Kommunikation
-      wirksam – dort, wo klassische Systeme nicht ankommen.
-    </p>
+    <div class="relative">
+      <img
+        src={portal.src}
+        width={portal.w}
+        height={portal.h}
+        alt="Das Bonisoft-Portal mit dem Dashboard einer Führungskraft"
+        fetchpriority="high"
+        decoding="async"
+        class="w-full"
+      />
 
-    <div class="mt-10 flex flex-wrap gap-4">
-      <a
-        href="#kontakt"
-        class="rounded-full bg-brand-500 px-7 py-3 font-medium text-ink-900 transition-colors hover:bg-brand-600 hover:text-white"
-      >
-        Kostenlos testen
-      </a>
-      <a
-        href="#so-funktionierts"
-        class="rounded-full border border-white/25 px-7 py-3 font-medium text-white transition-colors hover:bg-white/10"
-      >
-        So funktioniert's
-      </a>
+      <img
+        src={mobile.src}
+        width={mobile.w}
+        height={mobile.h}
+        alt="Die Bonisoft-App auf dem Smartphone"
+        decoding="async"
+        class="absolute bottom-0 left-90 w-[52%] translate-y-[12%]"
+      />
     </div>
   </div>
 </section>

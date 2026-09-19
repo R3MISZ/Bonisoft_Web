@@ -14,17 +14,29 @@ export const site = {
   linkedin: "https://www.linkedin.com/company/bonisoft",
 } as const;
 
+/**
+ * Header navigation. `also` lists further sections that belong to the same
+ * entry — the scrollspy keeps it marked while any of them is on screen.
+ */
 export const navLinks = [
   { href: "#realitaet", label: "Realität" },
   { href: "#loesung", label: "Lösung" },
-  { href: "#so-funktionierts", label: "So funktioniert's" },
+  { href: "#produkt", label: "Produkt", also: ["#plattform"] },
+  { href: "#so-funktionierts", label: "Ablauf" },
   { href: "#branchen", label: "Branchen" },
+  { href: "#warum", label: "Warum" },
+  { href: "#business-case", label: "Zahlen" },
+  { href: "#datenschutz", label: "Datenschutz" },
   { href: "#team", label: "Team" },
+  { href: "#faq", label: "FAQ" },
 ] as const;
+
+/** Linked from the contact form as well, so both point at the same page. */
+export const privacyPath = "/datenschutz";
 
 export const legalLinks = [
   { href: "/impressum", label: "Impressum" },
-  { href: "/datenschutz", label: "Datenschutz" },
+  { href: privacyPath, label: "Datenschutz" },
   { href: "/agb", label: "AGB" },
 ] as const;
 

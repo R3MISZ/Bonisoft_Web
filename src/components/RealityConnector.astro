@@ -1,0 +1,107 @@
+---
+import { brand } from "../data/brand";
+
+/**
+ * Diagram between the two perspective cards.
+ * Red: the two sides talking past each other directly.
+ * Green: the same exchange routed through Bonisoft in the middle.
+ *
+ * The lines are dashed and the dashes travel from the tail towards the head,
+ * so every arrow reads as an ongoing flow. Static inline SVG, no JavaScript.
+ * Rotated on phones, where the cards stack.
+ */
+const W = 176;
+const H = 240;
+
+/** Where the green arrows stop, so the hub gets the same air as the cards. */
+const hubEdge = 41;
+
+/** Direction follows from whether `to` is greater than `from`. */
+const arrows = [
+  { tone: "red", y: 38, from: W - 5, to: 5 },
+  { tone: "red", y: H - 38, from: 5, to: W - 5 },
+  { tone: "green", y: 128, from: 5, to: hubEdge },
+  { tone: "green", y: 128, from: W - hubEdge, to: W - 5 },
+  { tone: "green", y: 104, from: W - 5, to: W - hubEdge },
+  { tone: "green", y: 104, from: hubEdge, to: 5 },
+];
+
+/** Line stops short of the head so the tip stays crisp. */
+const head = 8;
+const shaft = ({ from, to }: { from: number; to: number }) =>
+  to > from ? to - head + 1 : to + head - 1;
+
+const tip = ({ from, to, y }: { from: number; to: number; y: number }) =>
+  to > from
+    ? `${to},${y} ${to - head},${y - 4.5} ${to - head},${y + 4.5}`
+    : `${to},${y} ${to + head},${y - 4.5} ${to + head},${y + 4.5}`;
+---
+
+<div class="relative flex items-center justify-center">
+  <svg
+    viewBox={`0 0 ${W} ${H}`}
+    class="h-auto w-full max-w-[11rem] max-md:rotate-90"
+    fill="none"
+    role="img"
+    aria-label="Management und operative Ebene reden direkt aneinander vorbei; über Bonisoft kommt der Austausch in beide Richtungen an."
+  >
+    {
+      arrows.map((arrow) => (
+        <g class={`flow flow-${arrow.tone}`}>
+          <line
+            x1={arrow.from}
+            y1={arrow.y}
+            x2={shaft(arrow)}
+            y2={arrow.y}
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            class="dashes"
+          />
+          <polygon points={tip(arrow)} fill="currentColor" />
+        </g>
+      ))
+    }
+  </svg>
+
+  <!-- the hub; swap the letter for the logo later -->
+  <span
+    class="absolute flex h-20 w-20 items-center justify-center rounded-2xl border border-ink-100 bg-white shadow-sm"
+  >
+    <img src={brand.signet} alt="Bonisoft" class="h-12 w-12" />
+  </span>
+</div>
+
+<style>
+  .flow-red {
+    color: var(--color-red-500);
+  }
+
+  .flow-green {
+    color: var(--color-emerald-600);
+  }
+
+  /*
+   * 5 units of dash + 7 of gap. Shifting the offset by one full period moves
+   * the pattern from the tail towards the head and loops seamlessly.
+   */
+  .dashes {
+    stroke-dasharray: 5 7;
+    animation: dash-flow 1.1s linear infinite;
+  }
+
+  @keyframes dash-flow {
+    from {
+      stroke-dashoffset: 12;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dashes {
+      animation: none;
+    }
+  }
+</style>

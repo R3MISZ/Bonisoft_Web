@@ -17,12 +17,12 @@ export const reasons = [
   },
   {
     title: "Modular statt monolithisch",
-    text: "Starten Sie mit dem Modul, das den größten Hebel hat, und erweitern Sie später.",
+    text: "Starten Sie mit dem Bereich, der den größten Hebel hat, und erweitern Sie später.",
     proof: "Kein All-or-nothing.",
   },
   {
     title: "Für den Mittelstand gedacht",
-    text: "Verständlich, pragmatisch, bezahlbar – mit persönlicher Betreuung statt Ticketsystem.",
+    text: "Verständlich, pragmatisch, bezahlbar. Sie sprechen mit den Gründern, nicht mit einem Ticketsystem.",
     proof: "Setup in Wochen, nicht Monaten.",
   },
   {

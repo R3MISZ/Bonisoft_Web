@@ -13,6 +13,7 @@ import {
   BatteryFull,
 } from "lucide-react";
 import { mobileNav, mobileHeader, type MobileViewId } from "../../data/demo";
+import { brand } from "../../data/brand";
 import MobileListView from "./MobileListView";
 import MobileShopView from "./MobileShopView";
 import MobileServicesView from "./MobileServicesView";
@@ -51,7 +52,7 @@ export default function MobileDemo() {
 
         {/* app header: points, streak, notifications, avatar */}
         <div className="flex items-center border-b border-ink-100 px-3 py-2.5">
-          <span className="text-base font-semibold text-brand-500">B</span>
+          <img src={brand.signet} alt="" className="h-5 w-5" />
 
           {/* counters sit in the middle, bell and avatar share the space to the right */}
           <span className="flex flex-1 items-center justify-center gap-3">

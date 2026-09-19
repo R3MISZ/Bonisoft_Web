@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { contactEndpoint, headcountOptions } from "../data/site";
+import { contactEndpoint, headcountOptions, privacyPath } from "../data/site";
 
 type Status = "idle" | "sending" | "sent" | "unconfigured" | "error";
 
@@ -71,12 +71,35 @@ export default function ContactForm() {
         </label>
       </div>
 
+      {/* Native required: the browser blocks submission until it is ticked. */}
+      <label className="mt-6 flex cursor-pointer items-start gap-3 text-sm text-ink-300">
+        <input
+          type="checkbox"
+          name="consent"
+          required
+          className="mt-0.5 h-4 w-4 shrink-0 accent-brand-500"
+        />
+        <span>
+          Ich bin damit einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage
+          gespeichert und verarbeitet werden. Was das genau bedeutet, steht in der{" "}
+          <a
+            href={privacyPath}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 hover:text-white"
+          >
+            Datenschutzerklärung
+          </a>
+          .
+        </span>
+      </label>
+
       <button
         type="submit"
         disabled={status === "sending"}
-        className="mt-7 w-full rounded-full bg-brand-500 px-7 py-3 font-medium text-ink-900 transition-colors hover:bg-brand-600 hover:text-white disabled:opacity-60 sm:w-auto"
+        className="mt-5 w-full rounded-full bg-brand-500 px-7 py-3 font-medium text-ink-900 transition-colors hover:bg-brand-600 hover:text-white disabled:opacity-60 sm:w-auto"
       >
-        {status === "sending" ? "Wird gesendet …" : "Kostenlos testen"}
+        {status === "sending" ? "Wird gesendet …" : "Anfrage senden"}
       </button>
 
       <p aria-live="polite" className="mt-4 text-sm">
@@ -91,11 +114,6 @@ export default function ContactForm() {
         {status === "error" && (
           <span className="text-brand-500">
             Das hat nicht geklappt. Schreiben Sie uns gern direkt per E-Mail.
-          </span>
-        )}
-        {status === "idle" && (
-          <span className="text-ink-600">
-            Ihre Daten werden ausschließlich zur Bearbeitung Ihrer Anfrage verwendet.
           </span>
         )}
       </p>

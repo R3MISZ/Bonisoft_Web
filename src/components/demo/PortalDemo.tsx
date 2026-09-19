@@ -6,6 +6,7 @@ import {
   portalNav, portalDashboard, portalEmployees, portalGroups,
   portalActionModules, portalServiceModules, type PortalViewId,
 } from "../../data/portal";
+import { brand } from "../../data/brand";
 import DashboardView from "./portal/DashboardView";
 import EmployeesView from "./portal/EmployeesView";
 import GroupsView from "./portal/GroupsView";
@@ -37,7 +38,7 @@ export default function PortalDemo() {
     <div className="overflow-hidden rounded-xl border border-ink-300/60 bg-white shadow-sm">
       <div className="grid grid-cols-[7.5rem_1fr] sm:grid-cols-[9.5rem_1fr]">
         <nav aria-label="Portalbereiche" className="border-r border-ink-100 bg-ink-100/40 p-2">
-          <p className="px-2 py-1.5 text-[0.75rem] font-semibold text-ink-900">Bonisoft</p>
+          <img src={brand.wordmarkDark} alt="Bonisoft" className="mx-2 my-1.5 h-4 w-auto" />
 
           {portalNav.map((section) => (
             <div key={section.group ?? "start"} className="mt-2">

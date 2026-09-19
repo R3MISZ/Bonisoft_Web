@@ -1,57 +1,42 @@
 ---
-import { site, navLinks, legalLinks } from "../data/site";
+import { site, legalLinks } from "../data/site";
 import LinkedInIcon from "./icons/LinkedInIcon";
+import { brand } from "../data/brand";
 
+/**
+ * One slim line. Navigation lives in the sticky header, so it is not repeated
+ * here — what stays is what people come to the footer for.
+ */
 const year = new Date().getFullYear();
 ---
 
 <footer class="bg-ink-900 text-ink-300">
-  <div class="mx-auto grid max-w-6xl gap-10 px-6 py-16 sm:grid-cols-3">
-    <div>
-      <p class="text-lg font-semibold text-white">{site.name}</p>
-      <p class="mt-3 max-w-xs text-sm">
-        Operative Exzellenz für mitarbeiterstarke Unternehmen. Bonisoft verbindet
-        Management-Ziele mit dem Arbeitsalltag.
-      </p>
-    </div>
+  <div
+    class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-8 gap-y-4 px-6 py-8 text-sm"
+  >
+    <img src={brand.wordmarkLight} alt={site.name} class="h-6 w-auto" />
 
-    <div>
-      <p class="text-sm font-semibold text-white">Navigation</p>
-      <ul class="mt-3 space-y-2 text-sm">
-        {navLinks.map(({ href, label }) => (
-          <li><a href={href} class="hover:text-white">{label}</a></li>
-        ))}
-      </ul>
-    </div>
+    <a href={`mailto:${site.email}`} class="hover:text-white">{site.email}</a>
+    <a href={`tel:${site.phoneHref}`} class="hover:text-white">{site.phone}</a>
 
-    <div>
-      <p class="text-sm font-semibold text-white">Kontakt</p>
-      <address class="mt-3 space-y-2 text-sm not-italic">
-        <p>{site.legalName}</p>
-        <p><a href={`mailto:${site.email}`} class="hover:text-white">{site.email}</a></p>
-        <p><a href={`tel:${site.phoneHref}`} class="hover:text-white">{site.phone}</a></p>
-      </address>
+    <a
+      href={site.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Bonisoft auf LinkedIn"
+      class="hover:text-white"
+    >
+      <LinkedInIcon size={16} />
+    </a>
 
-      <a
-        href={site.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mt-4 inline-flex items-center gap-2 text-sm hover:text-white"
-      >
-        <LinkedInIcon size={16} />
-        LinkedIn
-      </a>
-    </div>
-  </div>
+    <ul class="ml-auto flex flex-wrap gap-6">
+      {legalLinks.map(({ href, label }) => (
+        <li><a href={href} class="hover:text-white">{label}</a></li>
+      ))}
+    </ul>
 
-  <div class="border-t border-white/10">
-    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-6 text-xs">
-      <p>© {year} {site.legalName}. Alle Rechte vorbehalten.</p>
-      <ul class="flex gap-6">
-        {legalLinks.map(({ href, label }) => (
-          <li><a href={href} class="hover:text-white">{label}</a></li>
-        ))}
-      </ul>
-    </div>
+    <p class="w-full text-xs text-ink-600">
+      © {year} {site.legalName}. Alle Rechte vorbehalten.
+    </p>
   </div>
 </footer>

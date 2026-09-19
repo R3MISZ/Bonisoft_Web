@@ -1,9 +1,7 @@
 ---
 import { industries } from "../../data/industries";
-import { modules } from "../../data/modules";
 
-/** Second entry point. Each industry names the modules that carry it. */
-const moduleName = (id: string) => modules.find((module) => module.id === id)?.name ?? id;
+/** Second entry point: the reader finds their own operation here. */
 ---
 
 <section id="branchen" class="bg-white py-24">
@@ -13,13 +11,13 @@ const moduleName = (id: string) => modules.find((module) => module.id === id)?.n
       Jede Branche hat ihre eigenen Kennzahlen.
     </h2>
     <p class="mt-5 max-w-2xl text-lg text-ink-600">
-      Die Module bleiben dieselben – was sich unterscheidet, ist die Frage, woran
+      Die Plattform bleibt dieselbe – was sich unterscheidet, ist die Frage, woran
       Leistung gemessen wird.
     </p>
 
     <div class="mt-14 grid gap-6 lg:grid-cols-2">
-      {industries.map(({ name, text, kpis, moduleIds }) => (
-        <article class="flex flex-col rounded-2xl border border-ink-100 p-8">
+      {industries.map(({ name, text, kpis }) => (
+        <article class="rounded-2xl border border-ink-100 p-8">
           <h3 class="text-xl font-semibold text-ink-900">{name}</h3>
           <p class="mt-3 text-ink-600">{text}</p>
 
@@ -29,12 +27,6 @@ const moduleName = (id: string) => modules.find((module) => module.id === id)?.n
             ))}
           </ul>
 
-          <p class="mt-auto pt-6 text-sm text-ink-600">
-            Relevante Module:
-            <span class="font-medium text-ink-800">
-              {moduleIds.map(moduleName).join(" · ")}
-            </span>
-          </p>
         </article>
       ))}
     </div>

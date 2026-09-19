@@ -1,5 +1,6 @@
 ---
 import { perspectives } from "../../data/reality";
+import RealityConnector from "../RealityConnector.astro";
 
 /** Static section. Two perspectives side by side, no JavaScript. */
 ---
@@ -15,8 +16,10 @@ import { perspectives } from "../../data/reality";
       mit Führungskräften und operativen Mitarbeitenden.
     </p>
 
-    <div class="mt-14 grid gap-6 md:grid-cols-2">
-      {perspectives.map(({ audience, source, claim, points }) => (
+    <div class="mt-14 grid gap-6 md:grid-cols-[1fr_11rem_1fr] md:items-stretch">
+      {perspectives.map(({ audience, source, claim, points }, index) => (
+        <>
+          {index === 1 && <RealityConnector />}
         <article class="rounded-2xl border border-ink-100 bg-ink-100/40 p-8">
           <p class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-600">
             {audience}
@@ -35,12 +38,13 @@ import { perspectives } from "../../data/reality";
             ))}
           </ul>
         </article>
+        </>
       ))}
     </div>
 
     <p class="mt-14 max-w-2xl text-lg text-ink-800">
-      Beide Seiten wollen dasselbe – sie sehen es nur nicht voneinander.
-      <span class="text-ink-600">Genau an dieser Lücke setzt Bonisoft an.</span>
+      Beide Seiten wollen dasselbe – sie sehen es nur nicht voneinander.<br />
+      <span class="text-brand-500">Genau an dieser Lücke setzt Bonisoft an.</span>
     </p>
   </div>
 </section>

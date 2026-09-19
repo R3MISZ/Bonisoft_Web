@@ -1,27 +1,30 @@
-/** Founders. Real names and quotes — the strongest trust signal on the page. */
-export const founders = [
-  {
-    name: "Maximilian Hunfeld",
-    role: "Gründer & CEO",
-    quote:
-      "Wir haben Bonisoft gebaut, weil wir in der operativen Praxis gesehen haben: Die besten Strategien scheitern, wenn sie nicht bei den Menschen ankommen.",
-  },
-  {
-    name: "Michael Hötte",
-    role: "Mitgründer & CTO",
-    quote:
-      "Der Mehrwert digitaler Tools entsteht erst, wenn wir die operativen Mitarbeitenden für die Veränderung gewinnen und echte Anreize schaffen.",
-  },
+/**
+ * Org chart for the team section.
+ * `below` hangs a unit under another one — Entwicklung reports into
+ * Produktmanagement, so it sits one level deeper rather than beside it.
+ */
+export const leadership = [
+  { name: "Maximilian Hunfeld", title: "Gründer & CEO" },
+  { name: "Michael Hötte", title: "Mitgründer & CTO" },
 ] as const;
 
-/** The team behind the product, grouped by what they do. */
-export const teamGroups = [
+export const teamUnits = [
   {
-    role: "Produktmanagement",
-    members: ["Sven Merten", "Leon Minho Brosch"],
+    unit: "Verwaltung",
+    members: [{ name: "Ramona Landahl", title: "Verwaltung" }],
   },
   {
-    role: "Entwicklung",
-    members: ["Benedikt Kolb", "Kacper Remiszewski"],
+    unit: "Produktmanagement",
+    members: [
+      { name: "Sven Merten", title: "Produktmanager" },
+      { name: "Leon Minho Brosch", title: "Produktmanager" },
+    ],
+    below: {
+      unit: "Entwicklung",
+      members: [
+        { name: "Benedikt Kolb", title: "Softwareentwickler" },
+        { name: "Kacper Remiszewski", title: "Softwareentwickler" },
+      ],
+    },
   },
 ] as const;
