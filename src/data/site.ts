@@ -20,11 +20,10 @@ export const site = {
  */
 export const navLinks = [
   { href: "#realitaet", label: "Realität" },
-  { href: "#loesung", label: "Lösung" },
-  { href: "#produkt", label: "Produkt", also: ["#plattform"] },
+  { href: "#loesung", label: "Lösung", also: ["#belohnung"] },
+  { href: "#produkt", label: "Produkt", also: ["#aktionsmodule", "#plattform"] },
   { href: "#so-funktionierts", label: "Ablauf" },
   { href: "#branchen", label: "Branchen" },
-  { href: "#warum", label: "Warum" },
   { href: "#business-case", label: "Zahlen" },
   { href: "#datenschutz", label: "Datenschutz" },
   { href: "#team", label: "Team" },

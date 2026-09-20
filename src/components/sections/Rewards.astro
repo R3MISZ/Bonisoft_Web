@@ -1,0 +1,57 @@
+---
+import { CreditCard, Gift, Euro, RefreshCw, PiggyBank } from "lucide-react";
+import { pointRate, rewardPaths, type RewardIcon } from "../../data/rewards";
+
+/** Static section. Makes the currency concrete before anything else is shown. */
+const icons: Record<RewardIcon, typeof Gift> = {
+  card: CreditCard,
+  gift: Gift,
+  euro: Euro,
+  repeat: RefreshCw,
+  pension: PiggyBank,
+};
+---
+
+<section id="belohnung" class="bg-white py-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="eyebrow">Was ein Punkt wert ist</p>
+    <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
+      Punkte sind kein Abzeichen. Sie sind Geld.
+    </h2>
+    <p class="mt-5 max-w-2xl text-lg text-ink-600">
+      Der Kurs steht fest und ist für alle gleich. Wohin das Guthaben fließt,
+      entscheidet Ihr Unternehmen – ein Weg genügt, mehrere sind möglich.
+    </p>
+
+    <p class="mt-10 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+      <span class="text-4xl font-semibold tabular-nums text-ink-900 sm:text-5xl">
+        {pointRate.points} Punkte
+      </span>
+      <span class="text-2xl text-ink-300">=</span>
+      <span class="text-4xl font-semibold tabular-nums text-brand-600 sm:text-5xl">
+        {pointRate.euro} Euro
+      </span>
+    </p>
+
+    <div class="mt-14 grid gap-px overflow-hidden rounded-2xl bg-ink-100 sm:grid-cols-2 lg:grid-cols-3">
+      {rewardPaths.map(({ name, icon, text }) => {
+        const Icon = icons[icon];
+
+        return (
+          <article class="bg-white p-8">
+            <Icon size={22} strokeWidth={1.75} className="text-brand-600" aria-hidden="true" />
+            <h3 class="mt-4 text-lg font-semibold text-ink-900">{name}</h3>
+            <p class="mt-3 text-ink-600">{text}</p>
+          </article>
+        );
+      })}
+
+      <article class="bg-ink-100/60 p-8">
+        <p class="text-ink-800">
+          Jeder Weg lässt sich einzelnen Gruppen zuweisen – die Fahrer bekommen die
+          Tankkarte, die Verwaltung den Gutscheinshop.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>

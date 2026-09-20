@@ -79,3 +79,78 @@ die Zahlen. „Warum Bonisoft" steht damit weiterhin vor dem Business Case.
 - Kontakt zeigt in drei Schritten, was nach dem Absenden passiert.
 
 Ergebnis: 14.518 px statt 15.965 px (18,3 statt 20,1 Bildschirme), 1.221 Wörter.
+
+## Umbau auf Erzählung „B" am 20.09.2026
+
+Grundlage: `docs/produktwissen.md` (Fachwissen aus Portal und Backend).
+Leitgedanke: Der Sachbezug ist der Türöffner — die App wird geöffnet, weil sie
+sich auszahlt, und deshalb kommt dort auch alles andere an.
+
+Neu:
+
+- `Rewards.astro` + `src/data/rewards.ts` — „Was ein Punkt wert ist": Kurs
+  10 Punkte = 1 €, fünf Auszahlungswege.
+- `ActionModules.astro` + `src/data/actionBlocks.ts` — Bausteine einer Aufgabe
+  und die Freigabe („Und wenn jemand schummelt?").
+
+Neu geschrieben: Hero, Lösung (Mechanismus in drei Schritten), Plattform-Vorspann,
+`faq.ts`.
+
+Gelöscht: Abschnitt „Warum Bonisoft" samt `WhyBonisoft.astro` und `src/data/why.ts` —
+nach dem Umbau wiederholte er nur, was Lösung, Produkt und Freigabe schon zeigen.
+Zwei Argumente daraus leben als zwei Sätze in „Die Lösung" weiter: Zugang ohne
+E-Mail und PC, Einrichtung gemeinsam.
+
+Gekürzt: Datenschutz von vier Kacheln mit Fließtext auf eine Zeile mit vier
+Stichpunkten (406 px → 250 px).
+
+Ergebnis: 12.189 px statt 13.169 px (13,5 statt 14,6 Bildschirme), 15 Abschnitte.
+
+Nächste Kandidaten, noch nicht angefasst: Branchen (1.287 px, größter Abschnitt,
+vier gleichförmige Kacheln) und Team (1.000 px für sieben Personen).
+
+## Interaktives am 20.09.2026
+
+**Business Case ist ein Rechner** (`BusinessCaseCalculator.tsx`, Insel). Ein fester
+Hebel — Mitarbeiterbindung, Regler für Mitarbeitende und Fluktuationsquote — plus
+ein wählbarer zweiter: Fuhrpark (Sprit) oder Verwaltung (eingesparte Minuten).
+Der Krankenstand ist raus: 30 Krankheitstage lagen weit über dem Bundesschnitt und
+die Wirkung war nicht belegbar.
+
+Die Gesamtsumme zählt beim Hereinscrollen hoch (`CountUp.tsx`, wiederverwendbarer
+Haken, respektiert `prefers-reduced-motion`). Bewusst nur diese eine Stelle.
+
+**Der Aufgaben-Baukasten** (`TaskBuilder.tsx`, Insel im Abschnitt „Aufgaben")
+bildet den Modulaufbau-Reiter des Portals nach: Bausteine links, Telefon in der
+Mitte, Einstellungen des gewählten Bausteins rechts.
+
+Abweichungen vom Portal, jeweils mit Grund:
+
+- **Klicken statt Ziehen.** Drag-and-drop scheitert auf Touch und per Tastatur.
+  Reihenfolge ändern über Pfeil hoch/runter.
+- **Acht statt dreizehn Bausteine.** Jubiläums- und Geburtstagsbonus,
+  Terminumfrage und monatlicher Sachbezug haben keine sichtbare Eingabe.
+- **X immer sichtbar** statt nur am ausgewählten Baustein.
+- **Keine Dienstmodul-Auswahl beim Link** — das Ziel ist ein reines Textfeld,
+  weil „Dienstmodul" an dieser Stelle der Seite noch nicht erklärt ist.
+
+Die Vorschauen sind `Bonisoft_Portal/src/pages/action-modules/editor/subtypes-tab/previews.tsx`
+nachempfunden (Checkliste als Kreise mit türkis gefülltem ersten Eintrag, fünf
+**leere** Sterne, „Bild aufnehmen", „tt.mm.jjjj", „Link öffnen"). Wer daran etwas
+ändert, sollte vorher dort nachsehen.
+
+Editierbar sind: Modulname, Beschreibung für Mitarbeiter, Belohnung in Punkten
+(mit Euro-Gegenwert), Pflichtfeld je Baustein, Antworttyp und Einträge der
+Checkliste, Einträge des Dropdowns, Button-Text und Ziel der Verlinkung.
+
+## Offen
+
+- **Adresse der kostenlosen Testversion** — darauf soll ein Knopf unter dem
+  Baukasten zeigen. Fehlt noch, deshalb kein Knopf.
+- **Business-Case-Annahmen**: 10.000 € je Neubesetzung und 10 % verhinderte
+  Abgänge sind konservative Platzhalter von Claude, keine Bonisoft-Zahlen.
+  Kacper fragt bei Max/Michael nach, auch nach belastbaren Hebeln je Branche.
+- **Hilfetext der Verlinkung** spricht noch von „oder zu einem Dienstmodul",
+  obwohl die Auswahl raus ist.
+- **Fotodokumentation**: Einstellungen (Beschreibung, Beispielbild, ein Bild vs.
+  mehrere) noch nicht im Baukasten.

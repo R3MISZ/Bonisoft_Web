@@ -4,7 +4,7 @@ import { brand } from "../data/brand";
 /**
  * Diagram between the two perspective cards.
  * Red: the two sides talking past each other directly.
- * Green: the same exchange routed through Bonisoft in the middle.
+ * Ice blue, like the signet: the same exchange routed through Bonisoft.
  *
  * The lines are dashed and the dashes travel from the tail towards the head,
  * so every arrow reads as an ongoing flow. Static inline SVG, no JavaScript.
@@ -18,12 +18,12 @@ const hubEdge = 41;
 
 /** Direction follows from whether `to` is greater than `from`. */
 const arrows = [
-  { tone: "red", y: 38, from: W - 5, to: 5 },
-  { tone: "red", y: H - 38, from: 5, to: W - 5 },
-  { tone: "green", y: 128, from: 5, to: hubEdge },
-  { tone: "green", y: 128, from: W - hubEdge, to: W - 5 },
-  { tone: "green", y: 104, from: W - 5, to: W - hubEdge },
-  { tone: "green", y: 104, from: hubEdge, to: 5 },
+  { tone: "past", y: 38, from: W - 5, to: 5 },
+  { tone: "past", y: H - 38, from: 5, to: W - 5 },
+  { tone: "hub", y: 128, from: 5, to: hubEdge },
+  { tone: "hub", y: 128, from: W - hubEdge, to: W - 5 },
+  { tone: "hub", y: 104, from: W - 5, to: W - hubEdge },
+  { tone: "hub", y: 104, from: hubEdge, to: 5 },
 ];
 
 /** Line stops short of the head so the tip stays crisp. */
@@ -73,12 +73,12 @@ const tip = ({ from, to, y }: { from: number; to: number; y: number }) =>
 </div>
 
 <style>
-  .flow-red {
+  .flow-past {
     color: var(--color-red-500);
   }
 
-  .flow-green {
-    color: var(--color-emerald-600);
+  .flow-hub {
+    color: var(--color-brand-500);
   }
 
   /*

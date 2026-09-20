@@ -1,19 +1,24 @@
 /** Objection handling. Renders as native <details>, so it ships no JavaScript. */
 export const faq = [
   {
+    question: "Was ist ein Punkt wert?",
+    answer:
+      "Zehn Punkte entsprechen einem Euro – der Kurs ist im System fest hinterlegt und für alle gleich. Wohin das Guthaben fließt, legt Ihr Unternehmen fest: steuerfreier Sachbezug, Gutscheinshop, Auszahlung über die Lohnabrechnung oder betriebliche Altersvorsorge.",
+  },
+  {
+    question: "Was hindert Mitarbeitende daran, sich Punkte zu erschleichen?",
+    answer:
+      "Sie entscheiden pro Aufgabenart, ob die Belohnung automatisch gutgeschrieben wird oder erst nach Freigabe im Portal. Zu jedem Abschluss sehen Sie die abgegebenen Antworten, hochgeladene Fotos und den Zeitpunkt. Die Belohnung lässt sich auch kürzen, statt sie ganz zu verweigern.",
+  },
+  {
+    question: "Wer richtet die Aufgaben ein?",
+    answer:
+      "Zu Beginn wir, gemeinsam mit Ihnen. Der Baukasten ist mächtig, und die ersten Aufgaben sollen sitzen. Danach können Sie im Portal selbst Aufgaben anlegen und bestehende ändern – viele unserer Kunden tun das.",
+  },
+  {
     question: "Für welche Unternehmen ist Bonisoft geeignet?",
     answer:
-      "Die meisten unserer Kunden haben zwischen 100 und 1.500 Mitarbeitende – der kleinste rund 20, der größte etwa 7.000. Besonders relevant ist Bonisoft für mitarbeiterstarke operative Bereiche wie Logistik, Produktion, Handwerk, Bau und Service.",
-  },
-  {
-    question: "Was unterscheidet Bonisoft von klassischen HR- oder Bonus-Systemen?",
-    answer:
-      "Bonisoft ist kein reines HR-Tool. Es verbindet operative Prozesse, kennzahlenbasierte Leistungsmessung, Kommunikation und Motivation in einem System – und richtet sich an die Mitarbeitenden selbst, nicht nur an die Verwaltung.",
-  },
-  {
-    question: "Wie schnell lässt sich Bonisoft einführen?",
-    answer:
-      "Je nach Unternehmensgröße ist Bonisoft innerhalb weniger Wochen einsatzbereit. Der modulare Aufbau erlaubt einen schrittweisen Start mit einem Standort oder einem Modul.",
+      "Für Betriebe mit vielen Mitarbeitenden ohne festen Schreibtisch – Logistik, Produktion, Handwerk, Bau und Service. Die meisten unserer Kunden haben zwischen 100 und 1.500 Mitarbeitende, der kleinste rund 20, der größte etwa 7.000.",
   },
   {
     question: "Brauchen Mitarbeitende eine besondere technische Ausstattung?",
@@ -21,9 +26,14 @@ export const faq = [
       "Nein. Die App läuft auf jedem Smartphone. Es braucht keine Firmengeräte, keine E-Mail-Adresse und keine Schulung – die Anmeldung erfolgt per QR-Code oder Mitarbeiter-ID.",
   },
   {
-    question: "Lässt sich Bonisoft an bestehende Systeme anbinden?",
+    question: "Kann Bonisoft mehr als Aufgaben und Prämien?",
     answer:
-      "Ja. Es bestehen Schnittstellen zu ERP, Telematik, Zeiterfassung und weiteren operativen Datenquellen. Die Kennzahlen kommen dadurch automatisch, ohne doppelte Pflege.",
+      "Ja, und für viele Kunden ist das der eigentliche Grund. In derselben App liegen Schichtkalender, Zeiterfassung, Urlaubs- und Krankmeldung, persönliche Dokumente, Betriebsvereinbarungen und Ranglisten. Was Sie davon nutzen, entscheiden Sie.",
+  },
+  {
+    question: "Wie schnell lässt sich Bonisoft einführen?",
+    answer:
+      "Je nach Unternehmensgröße innerhalb weniger Wochen. Der modulare Aufbau erlaubt einen schrittweisen Start mit einem Standort oder einer einzigen Aufgabe.",
   },
   {
     question: "Was kostet Bonisoft?",

@@ -1,9 +1,9 @@
 ---
-import { businessCase } from "../../data/businessCase";
+import BusinessCaseCalculator from "../BusinessCaseCalculator.tsx";
 
 /**
- * Two worked examples with the maths on the table.
- * Static: the numbers are fixed, so no counter animation and no JavaScript.
+ * Two worked examples with the maths on the table. The figures are an island,
+ * because the reader sets fleet size and headcount; headings stay static.
  */
 ---
 
@@ -11,50 +11,15 @@ import { businessCase } from "../../data/businessCase";
   <div class="mx-auto max-w-6xl px-6">
     <p class="eyebrow">Business Case</p>
     <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
-      Zwei operative Hebel, offen durchgerechnet.
+      Zwei operative Hebel – rechnen Sie mit Ihren Zahlen.
     </h2>
 
-    <p class="mt-10 text-sm text-ink-300">Gesamteinsparung pro Jahr</p>
-    <p class="mt-2 text-5xl font-semibold tracking-tight text-brand-500 sm:text-6xl">
-      {businessCase.grandTotal}
-    </p>
-    <p class="mt-3 max-w-xl text-ink-300">
-      Hochgerechnet auf 100 LKW und 100 Mitarbeitende. Alle Annahmen stehen unten –
-      rechnen Sie gern mit Ihren eigenen Werten nach.
-    </p>
-
-    <div class="mt-14 grid gap-6 md:grid-cols-2">
-      {businessCase.cases.map(({ label, headline, rows, perUnit, total }) => (
-        <article class="rounded-2xl bg-white/5 p-8">
-          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-300">{label}</p>
-          <p class="mt-3 text-2xl font-semibold text-white">{headline}</p>
-
-          <dl class="mt-7 space-y-3 border-t border-white/10 pt-6 text-sm">
-            {rows.map(({ label: rowLabel, value }) => (
-              <div class="flex justify-between gap-4">
-                <dt class="text-ink-300">{rowLabel}</dt>
-                <dd class="tabular-nums text-white">{value}</dd>
-              </div>
-            ))}
-          </dl>
-
-          <div class="mt-7 flex flex-wrap gap-8 border-t border-white/10 pt-6">
-            <div>
-              <p class="text-2xl font-semibold text-brand-500">{perUnit.value}</p>
-              <p class="text-xs text-ink-300">{perUnit.label}</p>
-            </div>
-            <div>
-              <p class="text-2xl font-semibold text-white">{total.value}</p>
-              <p class="text-xs text-ink-300">{total.label}</p>
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
+    <BusinessCaseCalculator client:visible />
 
     <p class="mt-8 max-w-2xl text-sm text-ink-600">
-      Modellrechnung auf Basis typischer Werte aus der Logistik. Ihr tatsächliches
-      Ergebnis hängt von Ausgangslage und Umfang ab.
+      Modellrechnung mit vorsichtig gewählten Annahmen, nicht mit gemessenen
+      Kundenwerten. Alle Annahmen stehen offen in der Rechnung – im Gespräch setzen
+      wir Ihre eigenen ein.
     </p>
   </div>
 </section>
