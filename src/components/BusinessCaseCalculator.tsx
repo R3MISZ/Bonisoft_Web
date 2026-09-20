@@ -13,8 +13,8 @@ import { useCountUp } from "./CountUp";
  */
 export default function BusinessCaseCalculator() {
   const [industryIndex, setIndustryIndex] = useState(0);
-  const [employees, setEmployees] = useState(industries[0].presets.employees);
-  const [turnover, setTurnover] = useState(industries[0].presets.turnover);
+  const [employees, setEmployees] = useState<number>(industries[0].presets.employees);
+  const [turnover, setTurnover] = useState<number>(industries[0].presets.turnover);
   const [leverId, setLeverId] = useState<SecondaryLever["id"]>(secondaryLevers[0].id);
   const [leverValues, setLeverValues] = useState<Record<string, number>>(
     Object.fromEntries(secondaryLevers.map((lever) => [lever.id, lever.slider.preset])),

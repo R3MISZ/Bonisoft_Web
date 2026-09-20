@@ -68,7 +68,9 @@ export default function Nav() {
           else visible.delete(selector);
         }
 
-        const current = owned.find(([, selectors]) =>
+        /* Searched from the bottom up: "Incentive Engine" sits inside the
+           Aktionsmodule section, and the more specific entry should win. */
+        const current = [...owned].reverse().find(([, selectors]) =>
           selectors.some((selector) => visible.has(selector)),
         );
         setActiveHref(current?.[0] ?? null);

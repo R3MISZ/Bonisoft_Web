@@ -15,16 +15,22 @@ export const site = {
 } as const;
 
 /**
- * Header navigation. `also` lists further sections that belong to the same
- * entry — the scrollspy keeps it marked while any of them is on screen.
+ * Header navigation, in the order of the page. `also` may list further
+ * sections belonging to one entry; the scrollspy keeps it marked while any
+ * of them is on screen.
  */
 export const navLinks = [
   { href: "#realitaet", label: "Realität" },
-  { href: "#loesung", label: "Lösung", also: ["#belohnung"] },
-  { href: "#produkt", label: "Produkt", also: ["#aktionsmodule", "#plattform"] },
+  { href: "#loesung", label: "Lösung" },
+  { href: "#belohnung", label: "Punkte" },
+  { href: "#produkt", label: "Produkt" },
+  { href: "#aktionsmodule", label: "Aktionsmodule" },
+  { href: "#incentive-engine", label: "Incentive Engine" },
+  { href: "#plattform", label: "Dienstmodule" },
   { href: "#business-case", label: "Zahlen" },
   { href: "#team", label: "Team" },
   { href: "#faq", label: "FAQ" },
+  { href: "#kontakt", label: "Nächster Schritt" },
 ] as const;
 
 /** Linked from the contact form as well, so both point at the same page. */
