@@ -2,8 +2,9 @@
 import BusinessCaseCalculator from "../BusinessCaseCalculator.tsx";
 
 /**
- * Two worked examples with the maths on the table. The figures are an island,
- * because the reader sets fleet size and headcount; headings stay static.
+ * Business case and industries in one place: picking an industry sets the
+ * scene and the starting values, the maths stays the same for all of them.
+ * An island, because everything below the heading reacts to the reader.
  */
 ---
 
@@ -11,15 +12,21 @@ import BusinessCaseCalculator from "../BusinessCaseCalculator.tsx";
   <div class="mx-auto max-w-6xl px-6">
     <p class="eyebrow">Business Case</p>
     <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
-      Zwei operative Hebel – rechnen Sie mit Ihren Zahlen.
+      Was bringt das? Rechnen Sie mit Ihren Zahlen.
     </h2>
+    <p class="mt-5 max-w-2xl text-lg text-ink-300">
+      Die Plattform bleibt dieselbe – was sich unterscheidet, ist die Frage, woran
+      Leistung gemessen wird. Wählen Sie Ihre Branche: Sie setzt die Startwerte, den
+      Rest stellen Sie selbst ein.
+    </p>
 
     <BusinessCaseCalculator client:visible />
 
     <p class="mt-8 max-w-2xl text-sm text-ink-600">
       Modellrechnung mit vorsichtig gewählten Annahmen, nicht mit gemessenen
-      Kundenwerten. Alle Annahmen stehen offen in der Rechnung – im Gespräch setzen
-      wir Ihre eigenen ein.
+      Kundenwerten. Auch die Startwerte je Branche sind Erfahrungswerte, keine
+      Messung. Alle Annahmen stehen offen in der Rechnung – im Gespräch setzen wir
+      Ihre eigenen ein.
     </p>
   </div>
 </section>

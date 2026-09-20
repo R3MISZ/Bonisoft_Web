@@ -3,6 +3,7 @@ import {
   euro, headcount, leverSaving, retention, retentionSaving, secondaryLevers,
   type SecondaryLever,
 } from "../data/businessCase";
+import { industries } from "../data/industries";
 import { useCountUp } from "./CountUp";
 
 /**
@@ -11,14 +12,21 @@ import { useCountUp } from "./CountUp";
  * point into a spreadsheet.
  */
 export default function BusinessCaseCalculator() {
-  const [employees, setEmployees] = useState(headcount.preset);
-  const [turnover, setTurnover] = useState(retention.slider.preset);
+  const [industryIndex, setIndustryIndex] = useState(0);
+  const [employees, setEmployees] = useState(industries[0].presets.employees);
+  const [turnover, setTurnover] = useState(industries[0].presets.turnover);
   const [leverId, setLeverId] = useState<SecondaryLever["id"]>(secondaryLevers[0].id);
   const [leverValues, setLeverValues] = useState<Record<string, number>>(
     Object.fromEntries(secondaryLevers.map((lever) => [lever.id, lever.slider.preset])),
   );
 
-  const lever = secondaryLevers.find((entry) => entry.id === leverId) ?? secondaryLevers[0];
+  const industry = industries[industryIndex];
+
+  /* Only the levers that exist in this operation — a workshop has no fleet. */
+  const levers = secondaryLevers.filter((entry) =>
+    (industry.levers as readonly string[]).includes(entry.id),
+  );
+  const lever = levers.find((entry) => entry.id === leverId) ?? levers[0];
   const leverValue = leverValues[lever.id];
 
   const retentionTotal = retentionSaving(employees, turnover);
@@ -27,9 +35,62 @@ export default function BusinessCaseCalculator() {
 
   const prevented = employees * (turnover / 100) * retention.preventedShare;
 
+  /* Picking an industry resets the sliders to values typical for it. */
+  const selectIndustry = (index: number) => {
+    setIndustryIndex(index);
+    setEmployees(industries[index].presets.employees);
+    setTurnover(industries[index].presets.turnover);
+    setLeverId(industries[index].levers[0] as SecondaryLever["id"]);
+  };
+
   return (
     <>
-      <p className="mt-10 text-sm text-ink-300">Gesamteinsparung pro Jahr</p>
+      <ul className="mt-10 flex flex-wrap gap-2">
+        {industries.map((entry, index) => (
+          <li key={entry.slug}>
+            <button
+              type="button"
+              onClick={() => selectIndustry(index)}
+              aria-pressed={index === industryIndex}
+              className={`rounded-full px-4 py-2 text-sm transition-colors ${
+                index === industryIndex
+                  ? "bg-brand-500 font-medium text-ink-900"
+                  : "bg-white/10 text-ink-300 hover:text-white"
+              }`}
+            >
+              {entry.name}
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-6 grid gap-6 overflow-hidden rounded-2xl bg-white/5 sm:grid-cols-[16rem_1fr] sm:gap-0">
+        <img
+          src={industry.image}
+          width="1600"
+          height="1200"
+          loading="lazy"
+          alt={industry.name}
+          className="h-44 w-full object-cover sm:h-full"
+        />
+
+        <div className="p-8">
+          <p className="text-ink-300">{industry.text}</p>
+
+          <p className="mt-6 text-xs font-semibold tracking-[0.18em] uppercase text-ink-300">
+            Woran Leistung hier gemessen wird
+          </p>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {industry.kpis.map((kpi) => (
+              <li key={kpi} className="rounded-full bg-white/10 px-3 py-1 text-sm text-white">
+                {kpi}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <p className="mt-12 text-sm text-ink-300">Gesamteinsparung pro Jahr</p>
       <p
         ref={ref as React.Ref<HTMLParagraphElement>}
         className="mt-2 text-5xl font-semibold tracking-tight tabular-nums text-brand-500 sm:text-6xl"
@@ -96,7 +157,7 @@ export default function BusinessCaseCalculator() {
         {/* the reader picks what fits their operation */}
         <article className="rounded-2xl bg-white/5 p-8">
           <div className="flex flex-wrap gap-2">
-            {secondaryLevers.map((entry) => (
+            {levers.map((entry) => (
               <button
                 key={entry.id}
                 type="button"

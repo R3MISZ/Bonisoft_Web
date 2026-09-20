@@ -22,7 +22,6 @@ export const navLinks = [
   { href: "#realitaet", label: "Realität" },
   { href: "#loesung", label: "Lösung", also: ["#belohnung"] },
   { href: "#produkt", label: "Produkt", also: ["#aktionsmodule", "#plattform"] },
-  { href: "#branchen", label: "Branchen" },
   { href: "#business-case", label: "Zahlen" },
   { href: "#team", label: "Team" },
   { href: "#faq", label: "FAQ" },
