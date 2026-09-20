@@ -1,5 +1,15 @@
-/** Objection handling. Renders as native <details>, so it ships no JavaScript. */
-export const faq = [
+/**
+ * Objection handling. Renders as native <details>, so it ships no JavaScript.
+ * `link` points at the section that shows the answer instead of repeating it.
+ */
+export interface FaqEntry {
+  question: string;
+  answer: string;
+  /** Optional pointer to the section that shows the answer. */
+  link?: { href: string; label: string };
+}
+
+export const faq: FaqEntry[] = [
   {
     question: "Was ist ein Punkt wert?",
     answer:
@@ -23,12 +33,18 @@ export const faq = [
   {
     question: "Brauchen Mitarbeitende eine besondere technische Ausstattung?",
     answer:
-      "Nein. Die App läuft auf jedem Smartphone. Es braucht keine Firmengeräte, keine E-Mail-Adresse und keine Schulung – die Anmeldung erfolgt per QR-Code oder Mitarbeiter-ID.",
+      "Nein. Die App läuft auf jedem Smartphone, auch auf dem privaten. Es braucht kein Firmengerät, keinen PC und keine Schulung.",
+  },
+  {
+    question: "Wie aufwendig ist das Onboarding für Mitarbeitende?",
+    answer:
+      "Sie legen die Mitarbeitenden im Portal an – einzeln oder als Liste. Dabei entsteht je Person ein Einladungscode, den Sie als Nachricht weitergeben oder als PDF mit Anleitung verschicken können. In der App gibt die Person den Code ein, hinterlegt eine E-Mail-Adresse und vergibt ihr eigenes Passwort. Die Adresse darf privat sein – im Portal ist sie nicht einsehbar.",
   },
   {
     question: "Kann Bonisoft mehr als Aufgaben und Prämien?",
     answer:
-      "Ja, und für viele Kunden ist das der eigentliche Grund. In derselben App liegen Schichtkalender, Zeiterfassung, Urlaubs- und Krankmeldung, persönliche Dokumente, Betriebsvereinbarungen und Ranglisten. Was Sie davon nutzen, entscheiden Sie.",
+      "Ja, und für viele Kunden ist das der eigentliche Grund. Neben den Aufgaben gibt es elf Dienstmodule – von der Zeiterfassung bis zur Rangliste. Was Sie davon nutzen, entscheiden Sie.",
+    link: { href: "#plattform", label: "Dienstmodule ansehen" },
   },
   {
     question: "Wie schnell lässt sich Bonisoft einführen?",
@@ -43,6 +59,6 @@ export const faq = [
   {
     question: "Ist Bonisoft DSGVO-konform?",
     answer:
-      "Ja. Entwicklung und Hosting finden in Deutschland statt, alle Daten werden DSGVO-konform verarbeitet. Leistungsdaten sind so ausgelegt, dass sie der Steuerung dienen und nicht der Überwachung Einzelner.",
+      "Ja. Entwicklung, Betrieb und Hosting finden in Deutschland statt, in deutschen Rechenzentren. Wir schließen einen Auftragsverarbeitungsvertrag ab und haben ein Löschkonzept. Leistungsdaten sind so ausgelegt, dass sie der Steuerung von Teams dienen und nicht der Kontrolle Einzelner.",
   },
-] as const;
+];

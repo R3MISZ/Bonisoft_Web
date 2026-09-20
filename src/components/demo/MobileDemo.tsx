@@ -62,10 +62,12 @@ export default function MobileDemo() {
 
         {/* app header: points, streak, notifications, avatar */}
         <div className="flex items-center border-b border-ink-100 px-3 py-2.5">
-          <img src={brand.signet} alt="" className="h-5 w-5" />
+          <span className="flex flex-1">
+            <img src={brand.signet} alt="" className="h-5 w-5" />
+          </span>
 
-          {/* counters sit in the middle, bell and avatar share the space to the right */}
-          <span className="flex flex-1 items-center justify-center gap-3">
+          {/* left and right take equal space, so the counters land in the middle of the row */}
+          <span className="flex items-center gap-3">
             <span className="flex items-center gap-1">
               <Star size={13} className="fill-amber-400 text-amber-400" aria-hidden="true" />
               <span className="text-[0.75rem] font-medium tabular-nums text-ink-900">
@@ -81,7 +83,7 @@ export default function MobileDemo() {
             </span>
           </span>
 
-          <span className="flex flex-1 items-center justify-between">
+          <span className="flex flex-1 items-center justify-end gap-4">
             <Bell size={14} strokeWidth={1.75} className="text-ink-800" aria-hidden="true" />
 
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-100 text-[0.6rem] font-medium text-ink-800">

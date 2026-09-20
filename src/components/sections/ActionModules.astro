@@ -1,19 +1,29 @@
 ---
+import { CircleCheck, CircleQuestionMark, CircleMinus } from "lucide-react";
 import { approvalSteps } from "../../data/actionBlocks";
 import TaskBuilder from "../TaskBuilder.tsx";
+import ReviewDemo from "../ReviewDemo.tsx";
 
 /** Section around the interactive builder: what a task is made of, and who lets it count. */
+
+/** One mark per approval mode: waved through, held back, cut down. */
+const approvalLook = {
+  check: { Icon: CircleCheck, color: "text-emerald-500" },
+  question: { Icon: CircleQuestionMark, color: "text-brand-500" },
+  minus: { Icon: CircleMinus, color: "text-amber-500" },
+};
 ---
 
 <section id="aktionsmodule" class="bg-ink-900 py-24 text-white">
   <div class="mx-auto max-w-6xl px-6">
-    <p class="eyebrow">Aufgaben</p>
+    <p class="eyebrow">Aktionsmodule</p>
     <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
       Zusammengesetzt statt vorgegeben.
     </h2>
     <p class="mt-5 max-w-2xl text-lg text-ink-300">
-      Eine Aufgabe ist bei uns kein Formular von der Stange. Sie wird aus Bausteinen
-      gebaut – so, wie der Nachweis in Ihrem Betrieb tatsächlich aussieht.
+      Aktionsmodule sind die Aufgaben, für die es Punkte gibt. Keine davon ist ein
+      Formular von der Stange: Jede wird aus Bausteinen gebaut – so, wie der Nachweis
+      in Ihrem Betrieb tatsächlich aussieht.
     </p>
 
     <TaskBuilder client:visible />
@@ -26,20 +36,37 @@ import TaskBuilder from "../TaskBuilder.tsx";
     </p>
 
     <div class="mt-16 border-t border-white/10 pt-12">
-      <h3 class="text-xl font-semibold">Und wenn jemand schummelt?</h3>
+      <p class="eyebrow">Incentive Engine</p>
+      <h3 class="mt-3 text-xl font-semibold">Und wenn jemand schummelt?</h3>
       <p class="mt-3 max-w-2xl text-ink-300">
         Das ist die erste Frage, die uns gestellt wird. Deshalb entscheidet nicht die
         App, ob eine Aufgabe zählt, sondern Sie – pro Aufgabenart getrennt einstellbar.
       </p>
 
-      <div class="mt-10 grid gap-8 md:grid-cols-3">
-        {approvalSteps.map(({ title, text }) => (
+      <ReviewDemo client:visible />
+
+      <div class="mt-12 grid gap-8 md:grid-cols-3">
+        {approvalSteps.map(({ icon, title, text }) => {
+          const { Icon, color } = approvalLook[icon];
+          return (
           <article>
-            <h4 class="font-semibold text-white">{title}</h4>
+            <h4 class="flex items-center gap-2 font-semibold text-white">
+              <Icon size={18} strokeWidth={2} className={`shrink-0 ${color}`} aria-hidden="true" />
+              {title}
+            </h4>
             <p class="mt-2 text-sm text-ink-300">{text}</p>
           </article>
-        ))}
+          );
+        })}
       </div>
+
+      <h3 class="mt-16 text-xl font-semibold">Und wird das über die Zeit nicht aufwendig?</h3>
+      <p class="mt-3 max-w-2xl text-ink-300">
+        Nur so weit, wie Sie es zulassen. Was eindeutig ist, läuft automatisch durch
+        und landet nie auf einem Schreibtisch. Zur Freigabe kommt, was Ermessen
+        braucht – meist Fotonachweise. Dort liegen Antwort, Bild und Zeitpunkt
+        beieinander, statt dass jemand sie zusammensucht.
+      </p>
     </div>
   </div>
 </section>

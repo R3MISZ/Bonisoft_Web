@@ -22,14 +22,17 @@ export type ActionBlockIcon = (typeof actionBlocks)[number]["icon"];
 /** What happens after an employee hands a task in. */
 export const approvalSteps = [
   {
+    icon: "check",
     title: "Automatisch freigeben",
     text: "Für alles, was sich nicht bestreiten lässt: Anwesenheit, abgehakte Checkliste, erfasste Zeit.",
   },
   {
+    icon: "question",
     title: "Vorher prüfen",
     text: "Bei Nachweisen mit Ermessensspielraum landet der Abschluss erst zur Freigabe im Portal – mit Foto, Antwort und Zeitpunkt.",
   },
   {
+    icon: "minus",
     title: "Kürzen statt ablehnen",
     text: "Halb erledigt ist nicht gar nicht erledigt. Die Belohnung lässt sich reduzieren, statt sie ganz zu verweigern.",
   },

@@ -13,7 +13,7 @@ import { faq } from "../../data/faq";
     </h2>
 
     <div class="mt-12 divide-y divide-ink-100 border-y border-ink-100">
-      {faq.map(({ question, answer }) => (
+      {faq.map(({ question, answer, link }) => (
         <details class="group py-5">
           <summary
             class="flex cursor-pointer items-center justify-between gap-6 font-medium text-ink-900 marker:content-none"
@@ -27,6 +27,14 @@ import { faq } from "../../data/faq";
             />
           </summary>
           <p class="mt-3 text-ink-600">{answer}</p>
+          {link && (
+            <a
+              href={link.href}
+              class="mt-3 inline-block text-sm font-medium text-brand-600 underline decoration-brand-500 underline-offset-2 transition-colors hover:text-brand-500"
+            >
+              {link.label}
+            </a>
+          )}
         </details>
       ))}
     </div>

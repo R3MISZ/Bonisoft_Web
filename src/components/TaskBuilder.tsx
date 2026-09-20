@@ -204,9 +204,9 @@ export default function TaskBuilder() {
   const active = blocks.find((block) => block.uid === selected) ?? null;
 
   return (
-    <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_17rem_15rem] lg:items-start">
-      {/* left: the catalogue */}
-      <div>
+    <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_17rem_15rem] lg:items-stretch">
+      {/* left: the catalogue, with the reward pinned to the bottom of the column */}
+      <div className="flex flex-col">
         <p className="text-xs font-semibold tracking-[0.18em] uppercase text-ink-300">
           Bausteine
         </p>
@@ -237,7 +237,7 @@ export default function TaskBuilder() {
           ))}
         </ul>
 
-        <div className="mt-6 rounded-lg bg-white/5 p-5">
+        <div className="mt-6 rounded-lg bg-white/5 p-5 lg:mt-auto">
           <label className="block">
             <span className="flex items-baseline justify-between gap-4">
               <span className="text-sm text-ink-300">

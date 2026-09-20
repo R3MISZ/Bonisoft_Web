@@ -148,3 +148,34 @@ Beleg: `service-modules-status.json`.
 - **Einführung:** Dauer von Vertrag bis erster Aktion, wer richtet ein, welche
   Anbindungen an vorhandene Systeme nötig sind.
 - **Echter Kundenfall** mit Ausgangslage und messbarer Veränderung.
+
+## Anmeldung in der App
+
+Die Führungskraft legt Mitarbeitende im Portal an – einzeln oder per Import
+(`.xlsx` / `.csv`) – und gibt den **Einladungscode** aus; im Portal heißt das Feld
+`Einladungscode` (`registrationCode`), Codes lassen sich auch gesammelt
+herunterladen. Ein Passwort-Reset erzeugt einen neuen Code.
+Beleg: `Bonisoft_Portal/public/locales/de/employees.json`.
+
+Ablauf (erklärt von Kacper am 20.09.2026):
+
+1. Manager legt den Mitarbeitenden im Portal an, dabei entsteht der Einladungscode.
+2. Er gibt ihn weiter – als Nachricht oder als erzeugtes PDF mit Einrichtungs-
+   anleitung zum Verschicken. Gesammelt liefert das Portal `Onboarding_Documents.zip` über
+   `GET /api/companymanagementuser/onboardingfiles`.
+   Beleg: `Bonisoft_Portal/src/pages/employees/header-actions-components/BulkDownloadInviteCodesButton.tsx`.
+3. In der App gibt die Person den Code ein, **hinterlegt eine E-Mail-Adresse** und
+   vergibt ein **eigenes Passwort**.
+4. Die Adresse darf privat sein und ist **für den Manager nicht einsehbar** – die
+   Portal-Antworten `EmployeeUserResponse` und `EmployeeUserDetailedResponse`
+   führen kein E-Mail-Feld.
+
+Im Vertrag `RegisterEmployeeUserByRegistrationCodeRequest` ist `Email` als
+`string?` deklariert, Pflicht ist nur das Passwort; die App verlangt die Adresse
+trotzdem. Die Schnittstelle ist hier also lockerer als der Ablauf.
+
+Beim Anlegen im Portal wird keine E-Mail erfasst – `CreateEmployeeRequest` kennt
+kein solches Feld.
+
+Die frühere Aussage „Anmeldung per QR-Code oder Mitarbeiter-ID" stammte von
+bonisoft.de und ließ sich nirgends belegen; sie ist am 20.09.2026 entfernt.

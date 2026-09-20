@@ -22,10 +22,8 @@ export const navLinks = [
   { href: "#realitaet", label: "Realität" },
   { href: "#loesung", label: "Lösung", also: ["#belohnung"] },
   { href: "#produkt", label: "Produkt", also: ["#aktionsmodule", "#plattform"] },
-  { href: "#so-funktionierts", label: "Ablauf" },
   { href: "#branchen", label: "Branchen" },
   { href: "#business-case", label: "Zahlen" },
-  { href: "#datenschutz", label: "Datenschutz" },
   { href: "#team", label: "Team" },
   { href: "#faq", label: "FAQ" },
 ] as const;

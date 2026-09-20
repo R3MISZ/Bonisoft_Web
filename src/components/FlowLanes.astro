@@ -1,0 +1,95 @@
+---
+import { steps, rewardStep, laneLabels, type Lane } from "../data/steps";
+import FlowEdge from "./FlowEdge.astro";
+
+/**
+ * Two swimlanes on a five-column timeline. Static, no JavaScript.
+ * The lane change between step 2 and 3 is the point of the diagram:
+ * that is where the handover between office and shop floor happens.
+ */
+const managerSteps = steps.filter((step) => step.lane === "manager");
+const employeeSteps = steps.filter((step) => step.lane === "employee");
+
+const laneRow = (lane: Lane) => (lane === "manager" ? 1 : 2);
+/* Stacked order for the phone: along the timeline, upper lane first, so the
+   parallel card sits directly under step 04 instead of after step 05. */
+const allSteps = [...steps, rewardStep].sort(
+  (a, b) => a.column - b.column || laneRow(a.lane) - laneRow(b.lane),
+);
+---
+
+<!-- desktop: swimlanes on a timeline -->
+<div class="hidden lg:block">
+  <div class="grid grid-cols-[9rem_repeat(5,1fr)] gap-x-5 gap-y-4">
+    {
+      [
+        { lane: "manager" as Lane, items: managerSteps },
+        { lane: "employee" as Lane, items: [...employeeSteps, rewardStep] },
+      ].map(({ lane, items }) => (
+        <>
+          <div
+            class="flex items-center border-r border-white/10 pr-5 text-sm font-medium text-brand-500"
+            style={`grid-row: ${laneRow(lane)}; grid-column: 1;`}
+          >
+            {laneLabels[lane]}
+          </div>
+
+          {items.map((step) => {
+            const isReward = step.title === rewardStep.title;
+
+            return (
+              <div
+                class="relative"
+                style={`grid-row: ${laneRow(lane)}; grid-column: ${step.column + 1};`}
+              >
+                <article
+                  class={`relative h-full rounded-xl p-5 ${
+                    isReward ? "border border-dashed border-brand-500/60" : "bg-white/5"
+                  }`}
+                >
+                  <FlowEdge beat={step.column - 1} />
+
+                  {isReward ? (
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-brand-500">
+                      Parallel
+                    </p>
+                  ) : (
+                    <p class="text-xs tabular-nums text-brand-500">
+                      {String(step.column).padStart(2, "0")}
+                    </p>
+                  )}
+                  <h3 class="mt-2 font-semibold text-white">{step.title}</h3>
+                  <p class="mt-2 text-sm text-ink-300">{step.text}</p>
+                </article>
+              </div>
+            );
+          })}
+        </>
+      ))
+    }
+  </div>
+</div>
+
+<!-- mobile: same steps stacked, lane shown per card -->
+<ol class="space-y-3 lg:hidden">
+  {
+    allSteps.map((step) => {
+      const isReward = step.title === rewardStep.title;
+
+      return (
+        <li class={`relative rounded-xl p-5 ${isReward ? "border border-dashed border-brand-500/60" : "bg-white/5"}`}>
+          <FlowEdge beat={step.column - 1} />
+
+          <div class="flex items-center gap-3">
+            <span class="text-xs tabular-nums text-brand-500">
+              {isReward ? "Parallel" : String(step.column).padStart(2, "0")}
+            </span>
+            <span class="text-xs text-ink-600">{laneLabels[step.lane]}</span>
+          </div>
+          <h3 class="mt-2 font-semibold text-white">{step.title}</h3>
+          <p class="mt-2 text-sm text-ink-300">{step.text}</p>
+        </li>
+      );
+    })
+  }
+</ol>

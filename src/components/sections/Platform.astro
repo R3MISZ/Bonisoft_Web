@@ -1,120 +1,24 @@
 ---
-import {
-  CalendarDays, File, Folder, AlignLeft, Link2, Trophy, Clock, CalendarOff,
-  FileLock2, BadgeCheck, ShieldCheck,
-} from "lucide-react";
-import { moduleRows, type ModuleIcon } from "../../data/platform";
+import ServiceModulePicker from "../ServiceModulePicker.tsx";
 
-/**
- * Scrolling band of service modules. Pure CSS animation — no JavaScript.
- * Each row holds its items several times so the loop has no visible seam.
- */
-const icons: Record<ModuleIcon, typeof File> = {
-  calendar: CalendarDays,
-  file: File,
-  folder: Folder,
-  text: AlignLeft,
-  link: Link2,
-  trophy: Trophy,
-  clock: Clock,
-  absence: CalendarOff,
-  personalDocs: FileLock2,
-  status: BadgeCheck,
-  insurance: ShieldCheck,
-};
-
-/** Different speeds keep the rows from marching in lockstep. */
-const durations = ["52s", "64s", "58s"];
-
-/** Copies per row: enough that one shift never exposes an edge. */
-const COPIES = 4;
+/** The service modules, to click through rather than to watch scroll by. */
 ---
 
-<section id="plattform" class="overflow-hidden bg-white py-24">
+<section id="plattform" class="bg-white py-24">
   <div class="mx-auto max-w-6xl px-6">
-    <p class="eyebrow">Mehr als Aufgaben</p>
+    <p class="eyebrow">Dienstmodule</p>
     <h2 class="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
       Wenn die App schon offen ist.
     </h2>
     <p class="mt-5 max-w-2xl text-lg text-ink-600">
-      Stempeluhr, Urlaubsantrag, Schichtplan, Lohnabrechnung, Betriebsvereinbarung:
-      Aus elf Bausteinen stellen Sie zusammen, was Ihre Leute im Alltag brauchen –
-      an derselben Stelle, an der sie ohnehin ihre Punkte nachsehen.
+      Dienstmodule sind alles, was keine Aufgabe ist: Stempeluhr, Urlaubsantrag,
+      Schichtplan, Lohnabrechnung, Betriebsvereinbarung. Aus elf Bausteinen stellen
+      Sie zusammen, was Ihre Leute im Alltag brauchen – an derselben Stelle, an der
+      sie ohnehin ihre Punkte nachsehen.
     </p>
-    <div class="marquee mt-14 space-y-4">
-    {
-      moduleRows.map((row, rowIndex) => (
-        <div class="marquee-row" style={`--duration: ${durations[rowIndex]}; --delay: -${rowIndex * 9}s;`}>
-          <ul class="marquee-track">
-            {Array.from({ length: COPIES }, () => row)
-              .flat()
-              .map((item, itemIndex) => {
-                const Icon = icons[item.icon];
-                return (
-                  <li
-                    class="flex shrink-0 items-center gap-3 rounded-xl border border-ink-100 bg-white py-3 pr-6 pl-3"
-                    aria-hidden={itemIndex >= row.length ? "true" : undefined}
-                  >
-                    <span class={`flex h-9 w-9 items-center justify-center rounded-lg ${item.color}`}>
-                      <Icon size={18} strokeWidth={2} className="text-white" aria-hidden="true" />
-                    </span>
-                    <span class="whitespace-nowrap text-sm text-ink-800">{item.label}</span>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
-      ))
-    }
-  </div>
 
-    <p class="mt-10 text-sm text-ink-600">
-      Elf Bausteine, beliebig kombinierbar – vom Urlaubsantrag über den Intranet-Link
-      bis zur Bestenliste der Schicht.
-    </p>
+    <div class="mt-14">
+      <ServiceModulePicker client:visible />
+    </div>
   </div>
 </section>
-
-<style>
-  /* The band lives inside the page container and fades at its edges. */
-  .marquee {
-    --edge-fade: linear-gradient(
-      to right,
-      transparent,
-      black 3rem,
-      black calc(100% - 3rem),
-      transparent
-    );
-    -webkit-mask-image: var(--edge-fade);
-    mask-image: var(--edge-fade);
-  }
-
-  .marquee-row {
-    overflow: hidden;
-  }
-
-  .marquee-track {
-    display: flex;
-    gap: 1rem;
-    width: max-content;
-    /* Four copies: shifting by one copy loops without ever exposing an edge. */
-    animation: marquee-right var(--duration) linear infinite;
-    animation-delay: var(--delay);
-  }
-
-  @keyframes marquee-right {
-    from {
-      transform: translateX(-25%);
-    }
-    to {
-      transform: translateX(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
-      animation: none;
-      transform: translateX(-25%);
-    }
-  }
-</style>

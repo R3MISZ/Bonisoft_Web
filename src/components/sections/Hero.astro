@@ -38,7 +38,7 @@ const mobile = { src: "/product/mobile-iphone.webp", w: 1600, h: 1164 };
         alt="Das Bonisoft-Portal mit dem Dashboard einer Führungskraft"
         fetchpriority="high"
         decoding="async"
-        class="w-full"
+        class="stage stage-portal w-full"
       />
 
       <img
@@ -47,8 +47,46 @@ const mobile = { src: "/product/mobile-iphone.webp", w: 1600, h: 1164 };
         height={mobile.h}
         alt="Die Bonisoft-App auf dem Smartphone"
         decoding="async"
-        class="absolute bottom-0 left-40 w-[52%] translate-y-[12%]"
+        class="stage stage-mobile absolute bottom-0 left-40 w-[52%] translate-y-[12%]"
       />
     </div>
   </div>
 </section>
+
+<style>
+  /*
+   * Entrance on load: the portal settles in first, the phones follow.
+   * `translate-y-[12%]` on the phone uses the `translate` property, so the
+   * keyframes below are free to use `transform` without fighting it.
+   */
+  .stage {
+    opacity: 0;
+    animation: stage-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .stage-portal {
+    animation-delay: 0.1s;
+  }
+
+  .stage-mobile {
+    animation-delay: 0.55s;
+  }
+
+  @keyframes stage-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>

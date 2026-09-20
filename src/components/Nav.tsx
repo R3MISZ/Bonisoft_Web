@@ -1,16 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { navLinks, site } from "../data/site";
 import { brand } from "../data/brand";
 import LinkedInIcon from "./icons/LinkedInIcon";
 
 /**
  * Sticky header. Transparent while the hero is in view, solid once scrolled.
- * An island because it needs scroll state, a mobile menu toggle and scrollspy.
+ *
+ * The bar carries one entry, "Home", which opens the sections as a dropdown —
+ * the same menu at every width, so there is no separate burger.
+ * An island because it needs scroll state, the menu and scrollspy.
  */
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeHref, setActiveHref] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -18,6 +23,25 @@ export default function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  /** Close on Escape or on a click outside — expected of any dropdown. */
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!menuRef.current?.contains(event.target as Node)) setMenuOpen(false);
+    };
+
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [menuOpen]);
 
   /** Scrollspy: the section crossing the middle of the screen wins. */
   useEffect(() => {
@@ -62,27 +86,51 @@ export default function Nav() {
         scrolled || menuOpen ? "bg-ink-900/95 backdrop-blur" : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#top" aria-label={site.name}>
+      {/* three tracks so "Home" sits in the middle of the bar, not beside the logo */}
+      <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-6 py-4">
+        <a href="#top" aria-label={site.name} className="justify-self-start">
           <img src={brand.wordmarkLight} alt={site.name} className="h-7 w-auto" />
         </a>
 
-        <nav className="hidden items-center gap-6 xl:flex">
-          {navLinks.map(({ href, label }) => (
-            <a
-              key={href}
-              href={href}
-              aria-current={activeHref === href ? "true" : undefined}
-              className={`text-sm underline-offset-8 transition-colors ${
-                activeHref === href
-                  ? "text-white underline decoration-brand-500 decoration-2"
-                  : "text-ink-300 hover:text-white"
-              }`}
-            >
-              {label}
-            </a>
-          ))}
+        <div className="relative" ref={menuRef}>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-haspopup="true"
+            className="flex items-center gap-1.5 text-sm text-white underline decoration-brand-500 decoration-2 underline-offset-8"
+          >
+            Home
+            <ChevronDown
+              size={15}
+              strokeWidth={2}
+              aria-hidden="true"
+              className={`transition-transform ${menuOpen ? "rotate-180" : ""}`}
+            />
+          </button>
 
+          {menuOpen && (
+            <nav className="absolute top-full left-1/2 mt-3 w-56 -translate-x-1/2 rounded-xl border border-white/10 bg-ink-900 p-2 shadow-sm">
+              {navLinks.map(({ href, label }) => (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                  aria-current={activeHref === href ? "true" : undefined}
+                  className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
+                    activeHref === href
+                      ? "bg-white/10 text-white"
+                      : "text-ink-300 hover:bg-white/5 hover:text-white"
+                  }`}
+                >
+                  {label}
+                </a>
+              ))}
+            </nav>
+          )}
+        </div>
+
+        <div className="flex items-center gap-4 justify-self-end">
           <a
             href={site.linkedin}
             target="_blank"
@@ -95,62 +143,14 @@ export default function Nav() {
 
           <a
             href="#kontakt"
-            className="rounded-full bg-brand-500 px-5 py-2 text-sm font-medium text-ink-900 transition-colors hover:bg-brand-600 hover:text-white"
+            className="whitespace-nowrap rounded-full bg-brand-500 px-4 py-2 text-sm font-medium text-ink-900 transition-colors hover:bg-brand-600 hover:text-white sm:px-5"
           >
-            Kostenlos testen
+            {/* the long label would push "Home" off centre on a phone */}
+            <span className="sm:hidden">Testen</span>
+            <span className="hidden sm:inline">Kostenlos testen</span>
           </a>
-        </nav>
-
-        <button
-          type="button"
-          onClick={() => setMenuOpen((open) => !open)}
-          aria-expanded={menuOpen}
-          aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
-          className="text-white xl:hidden"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-          </svg>
-        </button>
+        </div>
       </div>
-
-      {menuOpen && (
-        <nav className="border-t border-white/10 px-6 pb-6 xl:hidden">
-          {navLinks.map(({ href, label }) => (
-            <a
-              key={href}
-              href={href}
-              onClick={() => setMenuOpen(false)}
-              aria-current={activeHref === href ? "true" : undefined}
-              className={`block py-3 underline-offset-8 ${
-                activeHref === href
-                  ? "text-white underline decoration-brand-500 decoration-2"
-                  : "text-ink-300 hover:text-white"
-              }`}
-            >
-              {label}
-            </a>
-          ))}
-
-          <a
-            href={site.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 py-3 text-ink-300 hover:text-white"
-          >
-            <LinkedInIcon size={16} />
-            LinkedIn
-          </a>
-
-          <a
-            href="#kontakt"
-            onClick={() => setMenuOpen(false)}
-            className="mt-2 block rounded-full bg-brand-500 px-5 py-2 text-center font-medium text-ink-900"
-          >
-            Kostenlos testen
-          </a>
-        </nav>
-      )}
     </header>
   );
 }
