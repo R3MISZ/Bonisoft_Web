@@ -14,31 +14,31 @@ export const steps = [
     column: 1,
     lane: "manager",
     title: "Potenziale definieren",
-    text: "Festlegen, welche Kennzahlen zählen und wo der größte Hebel liegt.",
+    text: "Welche Kennzahlen zählen – und wo der Hebel liegt.",
   },
   {
     column: 2,
     lane: "manager",
     title: "Aktionen erstellen",
-    text: "Regeln hinterlegen: Welche Aufgabe zahlt auf welches Ziel ein?",
+    text: "Welche Aufgabe zahlt auf welches Ziel ein?",
   },
   {
     column: 3,
     lane: "employee",
     title: "Aktionen umsetzen",
-    text: "Aufgaben und Checklisten landen direkt in der App – dort, wo gearbeitet wird.",
+    text: "Aufgaben und Checklisten landen in der App.",
   },
   {
     column: 4,
     lane: "manager",
     title: "Ergebnis & Feedback",
-    text: "Leistung wird sichtbar, auf beiden Seiten und ohne Nachfragen.",
+    text: "Leistung wird sichtbar – auf beiden Seiten.",
   },
   {
     column: 5,
     lane: "manager",
     title: "Prozesse verbessern",
-    text: "Datenbasiert nachjustieren und auf weitere Standorte ausrollen.",
+    text: "Nachjustieren und auf weitere Standorte ausrollen.",
   },
 ] as const satisfies readonly { column: number; lane: Lane; title: string; text: string }[];
 
@@ -47,5 +47,5 @@ export const rewardStep = {
   column: 4,
   lane: "employee",
   title: "Belohnung abholen",
-  text: "Punkte, Prämien und Anerkennung – unmittelbar, nicht am Jahresende.",
+  text: "Punkte sofort, nicht am Jahresende.",
 } as const;

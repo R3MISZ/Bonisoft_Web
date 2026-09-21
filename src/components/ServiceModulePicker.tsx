@@ -42,7 +42,9 @@ export default function ServiceModulePicker() {
         })}
       </ul>
 
-      <aside className="rounded-2xl border border-ink-100 bg-ink-100/50 p-6">
+      {/* min-h: the panel keeps its height while switching, so nothing jumps.
+          256px clears the longest description at every width. */}
+      <aside className="min-h-64 rounded-2xl border border-ink-100 bg-ink-100/50 p-6">
         <span className={`flex h-10 w-10 items-center justify-center rounded-lg ${color}`}>
           <Icon size={20} strokeWidth={2} className="text-white" aria-hidden="true" />
         </span>

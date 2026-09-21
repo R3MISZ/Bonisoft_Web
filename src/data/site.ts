@@ -15,9 +15,8 @@ export const site = {
 } as const;
 
 /**
- * Header navigation, in the order of the page. `also` may list further
- * sections belonging to one entry; the scrollspy keeps it marked while any
- * of them is on screen.
+ * Header navigation, in the order of the page. The scrollspy marks the entry whose
+ * section is crossing the middle of the screen.
  */
 export const navLinks = [
   { href: "#realitaet", label: "Realität" },

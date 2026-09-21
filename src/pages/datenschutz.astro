@@ -1,0 +1,11 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { privacy } from "../data/legal/privacy";
+---
+
+<LegalLayout
+  title="Datenschutzerklärung"
+  description="Wie die BoniSoft Technologies GmbH personenbezogene Daten auf dieser Website verarbeitet."
+  intro="Was mit Ihren Daten passiert, wenn Sie diese Website besuchen – und welche Rechte Sie dabei haben."
+  sections={privacy}
+/>

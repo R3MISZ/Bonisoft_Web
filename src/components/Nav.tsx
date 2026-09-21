@@ -1,8 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { navLinks, site } from "../data/site";
+import { legalLinks, navLinks, site } from "../data/site";
 import { brand } from "../data/brand";
 import LinkedInIcon from "./icons/LinkedInIcon";
+
+interface Props {
+  /**
+   * Put in front of every section link. Empty on the landing page, "/" on the
+   * legal pages, where "#realitaet" alone would point at nothing.
+   */
+  base?: string;
+  /** The page being shown, so the menu can mark it. Comes from Astro. */
+  currentPath?: string;
+}
 
 /**
  * Sticky header. Transparent while the hero is in view, solid once scrolled.
@@ -11,7 +21,7 @@ import LinkedInIcon from "./icons/LinkedInIcon";
  * the same menu at every width, so there is no separate burger.
  * An island because it needs scroll state, the menu and scrollspy.
  */
-export default function Nav() {
+export default function Nav({ base = "", currentPath = "" }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeHref, setActiveHref] = useState<string | null>(null);
@@ -45,11 +55,10 @@ export default function Nav() {
 
   /** Scrollspy: the section crossing the middle of the screen wins. */
   useEffect(() => {
-    /* A nav entry can span several sections; it stays marked while any of them shows. */
-    const owned = navLinks.map((link) => [
+    const owned: [string, string[]][] = navLinks.map((link) => [
       link.href,
-      "also" in link ? [link.href, ...link.also] : [link.href],
-    ]) as [string, string[]][];
+      [link.href],
+    ]);
 
     const sections = owned
       .flatMap(([, selectors]) => selectors)
@@ -90,7 +99,7 @@ export default function Nav() {
     >
       {/* three tracks so "Home" sits in the middle of the bar, not beside the logo */}
       <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-6 py-4">
-        <a href="#top" aria-label={site.name} className="justify-self-start">
+        <a href={base || "#top"} aria-label={site.name} className="justify-self-start">
           <img src={brand.wordmarkLight} alt={site.name} className="h-7 w-auto" />
         </a>
 
@@ -111,16 +120,57 @@ export default function Nav() {
             />
           </button>
 
+          {/* max-h: the list is long enough to reach past the fold on a small phone. */}
           {menuOpen && (
-            <nav className="absolute top-full left-1/2 mt-3 w-56 -translate-x-1/2 rounded-xl border border-white/10 bg-ink-900 p-2 shadow-sm">
+            <nav className="absolute top-full left-1/2 mt-3 max-h-[calc(100vh-6rem)] w-56 -translate-x-1/2 overflow-y-auto rounded-xl border border-white/10 bg-ink-900 p-2 shadow-sm">
+              {/*
+                Top of the landing page. On a legal page that means leaving it,
+                which is the whole reason the entry is here.
+              */}
+              <a
+                href={base || "#top"}
+                onClick={() => setMenuOpen(false)}
+                className="block rounded-lg px-3 py-2 text-sm text-ink-300 transition-colors hover:bg-white/5 hover:text-white"
+              >
+                Startseite
+              </a>
+
+              <p className="mt-2 border-t border-white/10 px-3 pt-3 pb-1 text-xs font-semibold tracking-[0.18em] text-ink-600 uppercase">
+                Abschnitte
+              </p>
+
               {navLinks.map(({ href, label }) => (
                 <a
                   key={href}
-                  href={href}
+                  href={base + href}
                   onClick={() => setMenuOpen(false)}
                   aria-current={activeHref === href ? "true" : undefined}
                   className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
                     activeHref === href
+                      ? "bg-white/10 text-white"
+                      : "text-ink-300 hover:bg-white/5 hover:text-white"
+                  }`}
+                >
+                  {label}
+                </a>
+              ))}
+
+              {/*
+                The legal pages leave the landing page, so they sit apart from
+                the sections rather than mixed in among them.
+              */}
+              <p className="mt-2 border-t border-white/10 px-3 pt-3 pb-1 text-xs font-semibold tracking-[0.18em] text-ink-600 uppercase">
+                Rechtliches
+              </p>
+
+              {legalLinks.map(({ href, label }) => (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                  aria-current={href === currentPath ? "page" : undefined}
+                  className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
+                    href === currentPath
                       ? "bg-white/10 text-white"
                       : "text-ink-300 hover:bg-white/5 hover:text-white"
                   }`}
@@ -144,7 +194,7 @@ export default function Nav() {
           </a>
 
           <a
-            href="#kontakt"
+            href={`${base}#kontakt`}
             className="whitespace-nowrap rounded-full bg-brand-500 px-4 py-2 text-sm font-medium text-ink-900 transition-colors hover:bg-brand-600 hover:text-white sm:px-5"
           >
             {/* the long label would push "Home" off centre on a phone */}

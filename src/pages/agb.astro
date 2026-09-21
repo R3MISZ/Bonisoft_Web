@@ -1,0 +1,12 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { terms, termsVersion } from "../data/legal/terms";
+---
+
+<LegalLayout
+  title="Allgemeine Geschäftsbedingungen"
+  description="Die Allgemeinen Geschäftsbedingungen der BoniSoft Technologies GmbH für die Nutzung von Bonisoft."
+  intro="Die Bedingungen, unter denen Unternehmen Bonisoft nutzen. Sie gelten gegenüber Unternehmern, nicht gegenüber Verbrauchern."
+  sections={terms}
+  note={termsVersion}
+/>

@@ -1,0 +1,120 @@
+---
+import Layout from "./Layout.astro";
+import Nav from "../components/Nav.tsx";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+import type { LegalSection } from "../data/legal/types";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Rendered under the headline — one line saying what the page is. */
+  intro: string;
+  sections: LegalSection[];
+  /** A table of contents helps on long documents and clutters short ones. */
+  toc?: boolean;
+  /** Optional line under the text, e.g. the version of the terms. */
+  note?: string;
+}
+
+const { title, description, intro, sections, note, toc = true } = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/$/, "");
+---
+
+<Layout title={`${title} – ${site.name}`} description={description}>
+  {/* base="/" so the section links lead back to the landing page. */}
+  <Nav client:load base="/" currentPath={path} />
+
+  <header class="bg-ink-900">
+    {/* pt-28 keeps the headline clear of the fixed bar. */}
+    <div class="mx-auto max-w-4xl px-6 pt-28 pb-14">
+      <p class="eyebrow">Rechtliches</p>
+      {/* „Geschäftsbedingungen“ is longer than a phone is wide — let it hyphenate. */}
+      <h1
+        class="mt-3 text-3xl font-semibold tracking-tight text-white hyphens-auto sm:text-4xl lg:text-5xl"
+      >
+        {title}
+      </h1>
+      <p class="mt-4 max-w-2xl text-ink-300">{intro}</p>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-4xl px-6 py-16">
+    <div class:list={["grid gap-12 lg:gap-16", toc && "lg:grid-cols-[14rem_minmax(0,1fr)]"]}>
+      {/* Long documents need a way in; it rides along while reading. */}
+      {toc && (
+      <nav aria-label="Inhalt" class="lg:sticky lg:top-28 lg:self-start">
+        <p class="eyebrow">Inhalt</p>
+        <ul class="mt-4 space-y-2 text-sm">
+          {sections.map(({ id, title: sectionTitle }) => (
+            <li>
+              <a
+                href={`#${id}`}
+                class="text-ink-600 transition-colors hover:text-brand-600"
+              >
+                {sectionTitle}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      )}
+
+      <div>
+        {sections.map(({ id, title: sectionTitle, blocks }) => (
+          <section id={id} class="scroll-mt-28 border-t border-ink-100 pt-8 first:border-0 first:pt-0 [&+section]:mt-12">
+            <h2 class="text-xl font-semibold text-ink-900">{sectionTitle}</h2>
+
+            {blocks.map((block) => {
+              if (block.kind === "h") {
+                return (
+                  <h3 class="mt-8 font-semibold text-ink-900">{block.text}</h3>
+                );
+              }
+
+              if (block.kind === "hs") {
+                return (
+                  <h4 class="mt-6 text-sm font-semibold tracking-wide text-ink-800">
+                    {block.text}
+                  </h4>
+                );
+              }
+
+              if (block.kind === "ul") {
+                return (
+                  <ul class="mt-4 space-y-2 text-ink-600">
+                    {block.items.map((item) => (
+                      <li class="flex gap-3">
+                        <span class="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-brand-500"></span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                );
+              }
+
+              if (block.kind === "clause") {
+                /* The number stays in its own column so clauses stay citable. */
+                return (
+                  <p class="mt-5 grid gap-x-4 gap-y-1 text-ink-600 sm:grid-cols-[3rem_minmax(0,1fr)]">
+                    <span class="font-semibold tabular-nums text-brand-600">
+                      {block.no}
+                    </span>
+                    <span>{block.text}</span>
+                  </p>
+                );
+              }
+
+              return <p class="mt-4 text-ink-600">{block.text}</p>;
+            })}
+          </section>
+        ))}
+
+        {note && <p class="mt-12 text-sm text-ink-600">{note}</p>}
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
